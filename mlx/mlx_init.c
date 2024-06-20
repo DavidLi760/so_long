@@ -76,7 +76,6 @@ int		mlx_int_deal_shm(t_xvar *xvar)
 		xvar->use_xshm = 0;
 	}
 }
-
 /*
 ** TrueColor Visual is needed to have *_mask correctly set
 */
