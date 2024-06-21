@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/06/21 13:55:58 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/21 17:13:05 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	mouse_move(int x, int y, t_vars *vars)
 int	main(void)
 {
 	t_vars	vars;
-	int	i;
+	int		i;
 
 	vars.mouse_pressed = 0;
 	vars.mlx = mlx_init();
@@ -156,7 +156,7 @@ int	main(void)
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.player1.img, vars.player1.x, vars.player1.y);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.player2.img, vars.player2.x, vars.player2.y);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 100, 100);
-	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 50,150);
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 50, 150);
 	mlx_hook(vars.win, 17, 0, close_win, &vars);
 	mlx_hook(vars.win, 2, 1L << 0, key_press, &vars);
 	mlx_hook(vars.win, 3, 1L << 1, key_release, &vars);
