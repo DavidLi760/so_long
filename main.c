@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/06/20 21:35:08 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/21 12:41:44 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	key_release(int keycode, t_vars *vars)
 int	update(t_vars *vars)
 {
 	vars->update_counter++;
-	if (vars->update_counter >= 100)
+	if (vars->update_counter >= 50)
 	{
 		if (vars->key_state[119])
 			printf("W, ");
@@ -88,7 +88,7 @@ int	main(void)
 	vars.mlx = mlx_init();
 	if (vars.mlx == NULL)
 		return (1);
-	vars.win = mlx_new_window(vars.mlx, 2500, 1300, "so_long");
+	vars.win = mlx_new_window(vars.mlx, 1920, 1000, "so_long");
 	if (vars.mlx == NULL)
 	{
 		free(vars.mlx);
