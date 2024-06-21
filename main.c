@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/06/21 12:41:44 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/21 13:55:58 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	key_press(int keycode, t_vars *vars)
 {
 	if (keycode == 65307)
 		close_win(vars);
-	else if (keycode >= 0 && keycode < 256)
+	else if (keycode >= 0 && keycode < 65365)
 	{
 		vars->key_state[keycode] = 1;
 	}
@@ -33,7 +33,7 @@ int	key_press(int keycode, t_vars *vars)
 
 int	key_release(int keycode, t_vars *vars)
 {
-	if (keycode >= 0 && keycode < 256)
+	if (keycode >= 0 && keycode < 65365)
 		vars->key_state[keycode] = 0;
 	return (0);
 }
@@ -41,18 +41,60 @@ int	key_release(int keycode, t_vars *vars)
 int	update(t_vars *vars)
 {
 	vars->update_counter++;
-	if (vars->update_counter >= 50)
+	if (vars->update_counter >= 500)
 	{
-		if (vars->key_state[119])
+		if (vars->key_state[119] && vars->player1.y > 0)
+		{
+			vars->player1.y -= 1;
 			printf("W, ");
-		if (vars->key_state[115])
+			printf(" %d ", vars->player1.y);
+		}
+		if (vars->key_state[115] && vars->player1.y < 935)
+		{
+			vars->player1.y += 1;
 			printf("S, ");
-		if (vars->key_state[97])
+			printf(" %d ", vars->player1.y);
+		}
+		if (vars->key_state[97] && vars->player1.x > 0)
+		{
+			vars->player1.x -= 1;
 			printf("A, ");
-		if (vars->key_state[100])
+			printf(" %d ", vars->player1.x);
+		}
+		if (vars->key_state[100] && vars->player1.x < 1850)
+		{
+			vars->player1.x += 1;
 			printf("D, ");
+			printf(" %d ", vars->player1.x);
+		}
+		if (vars->key_state[65362] && vars->player2.y > 0)
+		{
+			vars->player2.y -= 1;
+			printf("W, ");
+			printf(" %d ", vars->player2.y);
+		}
+		if (vars->key_state[65364] && vars->player2.y < 935)
+		{
+			vars->player2.y += 1;
+			printf("S, ");
+			printf(" %d ", vars->player2.y);
+		}
+		if (vars->key_state[65361] && vars->player2.x > 0)
+		{
+			vars->player2.x -= 1;
+			printf("A, ");
+			printf(" %d ", vars->player2.x);
+		}
+		if (vars->key_state[65363] && vars->player2.x < 1850)
+		{
+			vars->player2.x += 1;
+			printf("D, ");
+			printf(" %d ", vars->player2.x);
+		}
 	vars->update_counter = 0;
 	}
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img, vars->player1.x, vars->player1.y);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img, vars->player2.x, vars->player2.y);
 	return (0);
 }
 
@@ -96,11 +138,23 @@ int	main(void)
 	}
 	i = 0;
 	vars.update_counter = 0;
-	while (i < 256)
+	while (i < 65365)
 		vars.key_state[i++] = 0;
 	vars.img = mlx_xpm_file_to_image(vars.mlx, "block.xpm", &vars.img_width, &vars.img_height);
 	if (!vars.img)
 		exit(1);
+	vars.player1.img = mlx_xpm_file_to_image(vars.mlx, "block.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.img)
+		exit (1);
+	vars.player2.img = mlx_xpm_file_to_image(vars.mlx, "block.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.img)
+		exit (1);
+	vars.player1.x = 800;
+	vars.player1.y = 500;
+	vars.player2.x = 800;
+	vars.player2.y = 500;
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.player1.img, vars.player1.x, vars.player1.y);
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.player2.img, vars.player2.x, vars.player2.y);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 100, 100);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 50,150);
 	mlx_hook(vars.win, 17, 0, close_win, &vars);
