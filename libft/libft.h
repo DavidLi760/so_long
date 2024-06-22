@@ -6,7 +6,7 @@
 /*   By: davli <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 18:26:37 by davli             #+#    #+#             */
-/*   Updated: 2024/06/21 19:15:48 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/22 11:57:37 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_putendl_fd(char *s, int fd);
 void		ft_putnbr_fd(int n, int fd);
+char		**ft_split(char const *s, char c);
 
 typedef struct s_list
 {

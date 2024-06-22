@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/06/21 19:03:24 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/22 19:20:45 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 
 typedef struct s_map
 {
-	int	width;
-	int	height;
+	int		width;
+	int		height;
 	char	map[MAX_MAP][MAX_MAP];
 }	t_map;
 
@@ -51,6 +51,8 @@ typedef struct s_vars
 	void		*mlx;
 	void		*win;
 	void		*img;
+	char		*map_buf;
+	char		*map_line[14];
 	int			map_fd;
 	int			img_width;
 	int			img_height;

@@ -6,7 +6,7 @@
 /*   By: davli <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:52:20 by davli             #+#    #+#             */
-/*   Updated: 2024/06/21 19:21:50 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/22 18:11:45 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,15 @@ char	*readbuf(int fd, char *storage)
 
 char	*get_next_line(int fd)
 {
-	static char	*storage;
+	static char	*storage = NULL;
 	char		*line;
 
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
 	if (fd < 0)
 		return (NULL);
-	storage = readbuf (fd, storage);
+	if (!storage)
+		storage = readbuf (fd, storage);
 	if (storage == NULL)
 		return (NULL);
 	line = new_line(storage);
@@ -115,7 +116,6 @@ int	main(int argc, char **argv)
 		perror("Error opening file");
 		return (1);
 	}
-
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		printf("%s", line);

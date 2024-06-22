@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:33:57 by davli             #+#    #+#             */
-/*   Updated: 2024/06/21 19:35:06 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/22 19:07:40 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,33 @@ void	map_error(int argc, char **argv, t_vars *vars)
 		ft_printf("Error %d: Use ./so_long [map_name].ber\n", error);
 }
 
+int	check_wall(char	*line)
+{
+	int	i;
+
+	i = 0;
+	while ()
+}
+
 int	main(int argc, char **argv)
 {
-	t_vars vars;
+	t_vars	vars;
+	int		i;
 
+	i = 0;
+	vars.map_fd = open(argv[1], O_RDONLY);
+	if (vars.map_fd < 0)
+		return (0);
+	while (vars.map_buf)
+	{
+		vars.map_buf = get_next_line(fd);
+		vars.map_line[i++] = vars.map_buf;
+	}
+	if (i < )
+	while (vars.map_line)
+	{
+		check_wall(vars.map_line)
+		vars.map_line = get_next_line(fd);
+	}
 	map_error(argc, argv, &vars);
 }
