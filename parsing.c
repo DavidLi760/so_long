@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:33:57 by davli             #+#    #+#             */
-/*   Updated: 2024/06/24 18:52:31 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/24 19:49:58 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,25 @@ int	check_correct_char(t_vars *vars)
 	return (1);
 }
 
+void	fill(char **tab, int x, int y, char to_fill)
+{
+	tab[x][y] = 'V';
+	fill(tab, x - 1, y, to_fill);
+	fill(tab, x + 1, y, to_fill);
+	fill(tab, x, y - 1, to_fill);
+	fill(tab, x, y + 1, to_fill);
+}
+
+int	flood_fill(char **tab, t_vars *vars)
+{
+	fill(tab, x, y, letter);
+	if (tab[x][y] == 'V' && vars->c_count)
+		return (1);
+	return (0);
+}
+
+int	
+
 int	exit_error(int error, t_vars *vars)
 {
 	int	i;
@@ -132,6 +151,8 @@ int	exit_error(int error, t_vars *vars)
     exit (1);
 }
 
+
+
 void	map_error(int argc, t_vars *vars)
 {
 	if (argc < 2 || argc > 2)
@@ -142,6 +163,26 @@ void	map_error(int argc, t_vars *vars)
 		exit_error(-8, vars);
 	if (!check_correct_char(vars))
 		exit_error(-7, vars);
+	vars->map_x = 0;
+	while (vars->map_line[vars->map_x])
+	{
+		vars->max_y = 0;
+		while (vars->map_line[vars->map_x][vars->map_y])
+		{
+			if (vars->map_line[vars->map_x][vars->map_y] == 'P')
+			{
+				vars->p_pos.x = vars->map_x;
+				vars->p_pos.y = vars->map_y;
+			}
+			if (vars->map_line[vars->map_x][vars->map_y] == 'E')
+			{
+				vars->e_pos.x = vars->map_x;
+				vars->e_pos.y = vars->map_y;
+			}
+			vars->map_y++;
+		}
+		vars->map_x++;
+	}
 }
 
 int	main(int argc, char **argv)

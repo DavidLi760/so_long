@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/06/24 18:35:28 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/24 19:48:01 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ typedef struct s_player
 	int		img_height;
 }	t_player;
 
+typedef struct s_pos
+{
+	int	x;
+	int	y;
+}	t_pos;
+
 typedef struct s_vars
 {
 	void		*mlx;
@@ -54,6 +60,8 @@ typedef struct s_vars
 	char		*map_buf;
 	char		**map_line;
 	int			map_fd;
+	int			map_x;
+	int			map_y;
 	int			e_count;
 	int			p_count;
 	int			c_count;
@@ -64,6 +72,8 @@ typedef struct s_vars
 	int			key_state[65365];
 	int			update_counter;
 	int			mouse_pressed;
+	t_pos		p_pos;
+	t_pos		e_pos;
 	t_player	player1;
 	t_player	player2;
 
