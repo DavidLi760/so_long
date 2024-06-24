@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/06/22 19:20:45 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/24 18:35:28 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ typedef struct s_vars
 	void		*win;
 	void		*img;
 	char		*map_buf;
-	char		*map_line[14];
+	char		**map_line;
 	int			map_fd;
+	int			e_count;
+	int			p_count;
+	int			c_count;
 	int			img_width;
 	int			img_height;
 	int			pos_x;
@@ -65,5 +68,7 @@ typedef struct s_vars
 	t_player	player2;
 
 }	t_vars;
+
+int	exit_error(int error, t_vars *vars);
 
 #endif

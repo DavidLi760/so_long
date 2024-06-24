@@ -6,7 +6,7 @@
 /*   By: davli <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:52:20 by davli             #+#    #+#             */
-/*   Updated: 2024/06/22 18:11:45 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/24 17:12:29 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,46 +19,6 @@ char	*ft_free(char **str)
 	return (NULL);
 }
 
-char	*ft_update(char *storage)
-{
-	char	*new_storage;
-	char	*ptr;
-	int		len;
-
-	ptr = ft_strchr(storage, '\n');
-	if (!ptr)
-	{
-		new_storage = NULL;
-		return (ft_free(&storage));
-	}
-	else
-		len = (ptr - storage) + 1;
-	if (!storage[len])
-		return (ft_free(&storage));
-	new_storage = ft_substr(storage, len, ft_strlen(storage) - len);
-	ft_free(&storage);
-	if (!new_storage)
-		return (NULL);
-	return (new_storage);
-}
-
-char	*new_line(char *storage)
-{
-	char	*line;
-	char	*ptr;
-	int		len;
-
-	ptr = ft_strchr(storage, '\n');
-	if (!ptr)
-		len = ft_strlen(storage);
-	else
-		len = (ptr - storage) + 1;
-	line = ft_substr(storage, 0, len);
-	if (!line)
-		return (NULL);
-	return (line);
-}
-
 char	*readbuf(int fd, char *storage)
 {
 	int		rid;
@@ -69,7 +29,7 @@ char	*readbuf(int fd, char *storage)
 	if (!buffer)
 		return (ft_free(&storage));
 	buffer[0] = '\0';
-	while (rid > 0 && !ft_strchr(buffer, '\n'))
+	while (rid > 0)
 	{
 		rid = read (fd, buffer, BUFFER_SIZE);
 		if (rid > 0)
@@ -87,7 +47,6 @@ char	*readbuf(int fd, char *storage)
 char	*get_next_line(int fd)
 {
 	static char	*storage = NULL;
-	char		*line;
 
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
@@ -97,11 +56,7 @@ char	*get_next_line(int fd)
 		storage = readbuf (fd, storage);
 	if (storage == NULL)
 		return (NULL);
-	line = new_line(storage);
-	if (line == NULL)
-		return (ft_free(&storage));
-	storage = ft_update(storage);
-	return (line);
+	return (storage);
 }
 /*
 int	main(int argc, char **argv)
@@ -116,11 +71,8 @@ int	main(int argc, char **argv)
 		perror("Error opening file");
 		return (1);
 	}
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("%s", line);
-		free(line);
-	}
+	line = get_next_line(fd);
+	printf("%s", line);
 
 	close(fd);
 	return (0);

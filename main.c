@@ -6,12 +6,11 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/06/22 19:30:14 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/24 15:33:58 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include "mlx.h"
 
 int	close_win(t_vars *vars)
 {

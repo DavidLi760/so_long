@@ -6,21 +6,11 @@
 /*   By: davli <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:23:00 by davli             #+#    #+#             */
-/*   Updated: 2024/06/17 18:13:47 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/24 17:13:52 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
-static int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
+#include "libft.h"
 
 static int	count_word(char *s, char c)
 {
