@@ -6,11 +6,11 @@
 /*   By: davli <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:58:41 by davli             #+#    #+#             */
-/*   Updated: 2024/06/21 19:16:49 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/25 16:39:35 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {

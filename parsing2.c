@@ -6,11 +6,13 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:24:11 by davli             #+#    #+#             */
-/*   Updated: 2024/06/25 16:27:14 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/25 16:49:53 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	fill(char **tab, int x, int y)
+#include "so_long.h"
+
+static void	fill(char **tab, int x, int y)
 {
 	if (tab[x][y] == '1' || tab[x][y] == 'V')
 		return ;
@@ -48,7 +50,7 @@ int	flood_fill(t_vars *vars)
 	return (0);
 }
 
-void	char_counter(char c, t_vars *vars)
+static void	char_counter(char c, t_vars *vars)
 {
 	if (c == 'E')
 		vars->e_count++;

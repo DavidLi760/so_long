@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/06/25 16:32:27 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/25 19:31:14 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,58 +42,48 @@ int	update(t_vars *vars)
 	vars->update_counter++;
 	if (vars->update_counter >= 50)
 	{
-		if (vars->key_state[119] && vars->player1.y > 65)
+		if (vars->key_state[W] && vars->player1.y > 65)
 		{
 			vars->player1.y -= 1;
-			printf("W, ");
-			printf(" %d ", vars->player1.y);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_g, vars->player1.x, vars->player1.y);
 		}
-		if (vars->key_state[115] && vars->player1.y < 845)
+		if (vars->key_state[S] && vars->player1.y < 845)
 		{
 			vars->player1.y += 1;
-			printf("S, ");
-			printf(" %d ", vars->player1.y);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_g, vars->player1.x, vars->player1.y);
 		}
-		if (vars->key_state[97] && vars->player1.x > 65)
+		if (vars->key_state[A] && vars->player1.x > 65)
 		{
 			vars->player1.x -= 1;
-			printf("A, ");
-			printf(" %d ", vars->player1.x);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_g, vars->player1.x, vars->player1.y);
 		}
-		if (vars->key_state[100] && vars->player1.x < 1755)
+		if (vars->key_state[D] && vars->player1.x < 1755)
 		{
 			vars->player1.x += 1;
-			printf("D, ");
-			printf(" %d ", vars->player1.x);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_d, vars->player1.x, vars->player1.y);
 		}
-		if (vars->key_state[65362] && vars->player2.y > 65)
+		if (vars->key_state[ARROW_UP] && vars->player2.y > 65)
 		{
 			vars->player2.y -= 1;
-			printf("W, ");
-			printf(" %d ", vars->player2.y);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_g, vars->player2.x, vars->player2.y);
 		}
-		if (vars->key_state[65364] && vars->player2.y < 845)
+		if (vars->key_state[ARROW_DOWN] && vars->player2.y < 845)
 		{
 			vars->player2.y += 1;
-			printf("S, ");
-			printf(" %d ", vars->player2.y);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_g, vars->player2.x, vars->player2.y);
 		}
-		if (vars->key_state[65361] && vars->player2.x > 65)
+		if (vars->key_state[ARROW_LEFT] && vars->player2.x > 65)
 		{
 			vars->player2.x -= 1;
-			printf("A, ");
-			printf(" %d ", vars->player2.x);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_g, vars->player2.x, vars->player2.y);
 		}
-		if (vars->key_state[65363] && vars->player2.x < 1755)
+		if (vars->key_state[ARROW_RIGHT] && vars->player2.x < 1755)
 		{
 			vars->player2.x += 1;
-			printf("D, ");
-			printf(" %d ", vars->player2.x);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_d, vars->player2.x, vars->player2.y);
 		}
 	vars->update_counter = 0;
 	}
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img, vars->player1.x, vars->player1.y);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img, vars->player2.x, vars->player2.y);
 	return (0);
 }
 
@@ -122,14 +112,14 @@ int	mouse_move(int x, int y, t_vars *vars)
 
 void	check_arg(t_vars *vars, int	argc, char **argv)
 {
-	vars.map_fd = open(argv[1], O_RDONLY);
-	vars.map_buf = get_next_line(vars.map_fd);
-	if (!vars.map_buf)
-		return (0);
-	vars.map_line = ft_split(vars.map_buf, '\n');
-	vars.map_temp = ft_split(vars.map_buf, '\n');
-	map_error(argc, &vars);
-	split_cleaner(&vars);
+	vars->map_fd = open(argv[1], O_RDONLY);
+	vars->map_buf = get_next_line(vars->map_fd);
+	if (!vars->map_buf)
+		return ;
+	vars->map_line = ft_split(vars->map_buf, '\n');
+	vars->map_temp = ft_split(vars->map_buf, '\n');
+	map_error(argc, vars);
+	split_cleaner(vars);
 	printf("Success\n");
 }
 
@@ -139,6 +129,7 @@ int	main(int argc, char **argv)
 	int		i;
 	int		j = 0;
 
+	check_arg(&vars, argc, argv);
 	vars.mouse_pressed = 0;
 	vars.mlx = mlx_init();
 	if (vars.mlx == NULL)
@@ -153,41 +144,48 @@ int	main(int argc, char **argv)
 	vars.update_counter = 0;
 	while (i < 65365)
 		vars.key_state[i++] = 0;
-	vars.img = mlx_xpm_file_to_image(vars.mlx, "block.xpm", &vars.img_width, &vars.img_height);
-	if (!vars.img)
+	vars.img0 = mlx_xpm_file_to_image(vars.mlx, "block.xpm", &vars.img_width, &vars.img_height);
+	if (!vars.img0)
 		exit(1);
-	vars.player1.img = mlx_xpm_file_to_image(vars.mlx, "block.xpm", &vars.player1.x, &vars.player1.y);
-	if (!vars.player1.img)
+	vars.player1.img_d = mlx_xpm_file_to_image(vars.mlx, "Poisson1d.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.img_d)
 		exit (1);
-	vars.player2.img = mlx_xpm_file_to_image(vars.mlx, "block.xpm", &vars.player2.x, &vars.player2.y);
-	if (!vars.player2.img)
+	vars.player1.img_g = mlx_xpm_file_to_image(vars.mlx, "Poisson1g.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.img_g)
+		exit (1);
+	vars.player2.img_g = mlx_xpm_file_to_image(vars.mlx, "Poisson3g.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.img_g)
+		exit (1);
+	vars.player2.img_d = mlx_xpm_file_to_image(vars.mlx, "Poisson3d.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.img_d)
 		exit (1);
 	vars.player1.x = 65;
 	vars.player1.y = 65;
 	vars.player2.x = 1755;
 	vars.player2.y = 845;
-	mlx_put_image_to_window(vars.mlx, vars.win, vars.player1.img, vars.player1.x, vars.player1.y);
-	mlx_put_image_to_window(vars.mlx, vars.win, vars.player2.img, vars.player2.x, vars.player2.y);
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.player1.img_g, vars.player1.x, vars.player1.y);
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.player1.img_d, vars.player1.x, vars.player1.y);
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.player2.img_d, vars.player2.x, vars.player2.y);
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.player2.img_g, vars.player2.x, vars.player2.y);
 	while (j < 15)
 	{
-		mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0 + j++ * 65);
+		mlx_put_image_to_window(vars.mlx, vars.win, vars.img0, 0, 0 + j++ * 65);
 	}
 	j = 0;
 	while (j < 15)
 	{
-		mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 1820, 0 + j++ * 65);
+		mlx_put_image_to_window(vars.mlx, vars.win, vars.img0, 1820, 0 + j++ * 65);
 	}
 	j = 0;
 	while (j < 29)
 	{
-		mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0 + j++ * 65, 0);
+		mlx_put_image_to_window(vars.mlx, vars.win, vars.img0, 0 + j++ * 65, 0);
 	}
 	j = 0;
 	while (j < 29)
 	{
-		mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0 + j++ * 65, 910);
+		mlx_put_image_to_window(vars.mlx, vars.win, vars.img0, 0 + j++ * 65, 910);
 	}
-	check_arg(&vars, argc, argv);
 	mlx_hook(vars.win, 17, 0, close_win, &vars);
 	mlx_hook(vars.win, 2, 1L << 0, key_press, &vars);
 	mlx_hook(vars.win, 3, 1L << 1, key_release, &vars);

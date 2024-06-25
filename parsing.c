@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:33:57 by davli             #+#    #+#             */
-/*   Updated: 2024/06/25 16:27:57 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/25 17:06:01 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,14 @@ int	is_closed(t_vars *vars)
 
 	i = 0;
 	j = 0;
-	height = 0;
-	while (vars->map_line[height])
-		height++;
+	vars->map_height = 0;
+	while (vars->map_line[vars->map_height])
+		vars->map_height++;
 	while (vars->map_line[i])
 	{
 		j = 0;
-		if (vars->map_line[0][j] != '1' || vars->map_line[height - 1][j] != '1')
+		if (vars->map_line[0][j] != '1' ||
+				vars->map_line[vars->map_height - 1][j] != '1')
 			return (0);
 		while (vars->map_line[i][j])
 		{
@@ -119,10 +120,11 @@ void	map_error(int argc, t_vars *vars)
 		exit_error(-8, vars);
 	if (!check_correct_char(vars))
 		exit_error(-7, vars);
+	get_map_pos(vars);
 	if (!flood_fill(vars))
 		exit_error(-6, vars);
 }
-
+/*
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
@@ -138,3 +140,4 @@ int	main(int argc, char **argv)
 	printf("Success\n");
 	return (0);
 }
+*/

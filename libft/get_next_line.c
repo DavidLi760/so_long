@@ -6,11 +6,11 @@
 /*   By: davli <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:52:20 by davli             #+#    #+#             */
-/*   Updated: 2024/06/24 17:12:29 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/25 16:39:24 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 char	*ft_free(char **str)
 {

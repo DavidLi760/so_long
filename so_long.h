@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/06/25 16:17:53 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/25 18:58:40 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,16 @@
 # include "stddef.h"
 # include "ft_printf/ft_printf.h"
 # include "libft/libft.h"
-# include "get_next_line/get_next_line.h"
 
 # define MAX_MAP 100
 # define W 119
 # define S 115
 # define A 97
 # define D 100
+# define ARROW_UP 65362
+# define ARROW_DOWN 65364
+# define ARROW_LEFT 65361
+# define ARROW_RIGHT 65363
 
 typedef struct s_map
 {
@@ -41,7 +44,8 @@ typedef struct s_player
 	int		x;
 	int		y;
 	int		power;
-	void	*img;
+	void	*img_d;
+	void	*img_g;
 	int		img_width;
 	int		img_height;
 }	t_player;
@@ -56,7 +60,9 @@ typedef struct s_vars
 {
 	void		*mlx;
 	void		*win;
-	void		*img;
+	void		*img0;
+	void		*img1;
+	void		*img2;
 	char		*map_buf;
 	char		**map_line;
 	char		**map_temp;
@@ -82,6 +88,15 @@ typedef struct s_vars
 
 }	t_vars;
 
-int	exit_error(int error, t_vars *vars);
+int		check_opening(char *argv, t_vars *vars);
+int		check_rectangular(t_vars *vars);
+int		is_closed(t_vars *vars);
+void	get_map_pos(t_vars *vars);
+void	map_error(int argc, t_vars *vars);
+int		flood_fill(t_vars *vars);
+int		check_correct_char(t_vars *vars);
+void	split_cleaner(t_vars *vars);
+void	exit_error(int error, t_vars *vars);
+void	check_arg(t_vars *vars, int argc, char **argv);
 
 #endif

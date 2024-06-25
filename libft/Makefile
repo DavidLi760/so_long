@@ -27,7 +27,9 @@ SRCS 	=	ft_atoi.c \
 		ft_strlcat.c \
 		ft_strcmp.c \
 		ft_strncmp.c \
-		ft_split.c
+		ft_split.c \
+		get_next_line.c \
+		get_next_line_utils.c
 
 OBJS 	=	${SRCS:.c=.o}
 
