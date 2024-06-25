@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/06/24 15:33:58 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/25 16:32:27 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,20 @@ int	mouse_move(int x, int y, t_vars *vars)
 	return (0);
 }
 
-int	main(void)
+void	check_arg(t_vars *vars, int	argc, char **argv)
+{
+	vars.map_fd = open(argv[1], O_RDONLY);
+	vars.map_buf = get_next_line(vars.map_fd);
+	if (!vars.map_buf)
+		return (0);
+	vars.map_line = ft_split(vars.map_buf, '\n');
+	vars.map_temp = ft_split(vars.map_buf, '\n');
+	map_error(argc, &vars);
+	split_cleaner(&vars);
+	printf("Success\n");
+}
+
+int	main(int argc, char **argv)
 {
 	t_vars	vars;
 	int		i;
@@ -174,6 +187,7 @@ int	main(void)
 	{
 		mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0 + j++ * 65, 910);
 	}
+	check_arg(&vars, argc, argv);
 	mlx_hook(vars.win, 17, 0, close_win, &vars);
 	mlx_hook(vars.win, 2, 1L << 0, key_press, &vars);
 	mlx_hook(vars.win, 3, 1L << 1, key_release, &vars);

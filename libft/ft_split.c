@@ -5,104 +5,93 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: davli <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 16:23:00 by davli             #+#    #+#             */
-/*   Updated: 2024/06/24 17:13:52 by davli            ###   ########.fr       */
+/*   Created: 2024/05/20 18:02:37 by davli             #+#    #+#             */
+/*   Updated: 2024/06/25 15:39:02 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_word(char *s, char c)
+static size_t	count_words(char const *s, char c)
 {
-	int	i;
-	int	count;
+	size_t	words;
+	size_t	i;
 
+	words = 0;
 	i = 0;
-	count = 0;
 	while (s[i])
 	{
-		while (s[i] == c)
-			i++;
-		if (s[i])
-			count++;
-		while (s[i] && s[i] != c)
-			i++;
+		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
+			words++;
+		i++;
 	}
-	return (count);
+	return (words);
 }
 
-static char	*between(char *str, char c, int index)
+static void	fill_tab(char *new, char const *s, char c)
 {
-	char	*word;
-	int		start;
-	int		j;
-	int		tmp;
-
-	start = index;
-	tmp = ft_strlen(str);
-	while (str[index] != c && index < tmp)
-		index++;
-	if (index == start)
-		return (NULL);
-	word = malloc(sizeof(char) * (index - start + 1));
-	if (!word)
-		return (NULL);
-	j = 0;
-	while (start < index)
-	{
-		word[j] = str[start];
-		j++;
-		start++;
-	}
-	word[j] = '\0';
-	return (word);
-}
-
-static char	**make(char **res, char *s, char c, int len)
-{
-	int	i;
-	int	j;
+	size_t	i;
 
 	i = 0;
-	j = 0;
-	while (s[i] && j <= len)
+	while (s[i] && s[i] != c)
 	{
-		while (s[i] == c)
-			i++;
-		if (s[i])
-		{
-			res[j] = between(s, c, i);
-			j++;
-		}
-		while (s[i] != c && s[i])
-			i++;
+		new[i] = s[i];
+		i++;
 	}
-	res[j] = 0;
-	return (res);
+	new[i] = '\0';
+}
+
+static char	**make_tab(char **tab, char const *s, char c)
+{
+	size_t	i;
+	size_t	j;
+	size_t	k;
+
+	j = 0;
+	k = 0;
+	while (s[j])
+	{
+		i = 0;
+		while (s[j + i] && s[j + i] != c)
+			i++;
+		if (i > 0)
+		{
+			tab[k] = malloc(sizeof(char) * (i + 1));
+			if (!tab[k])
+				return (NULL);
+			fill_tab(tab[k], (s + j), c);
+			k++;
+			j = j + i;
+		}
+		else
+			j++;
+	}
+	tab[k] = 0;
+	return (tab);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**res;
-	int		len;
+	size_t	words;
+	char	**tab;
 
-	len = count_word((char *)s, c);
-	res = malloc(sizeof(char *) * (len + 1));
-	if (!res)
+	words = count_words(s, c);
+	tab = malloc(sizeof(char *) * (words + 1));
+	if (!tab)
 		return (NULL);
-	res = make(res, (char *)s, c, len);
-	return (res);
+	make_tab(tab, s, c);
+	return (tab);
 }
 /*
-int	main(int ac, char **av)
+int	main()
 {
-	int	i;
+	int i = 0;
+	char *str;
+	char **tab;
 
-	i = 0;
-	(void)ac;
-	av = ft_split(av[1], ' ');
-	while (av[i])
-		printf("%s\n", av[i++]);
-	return (0);
+	str = "\n\n\n";
+	tab = ft_split(str, '\n');
+	while (tab[i])
+		printf("%s\n", tab[i++]);
 }
 */
