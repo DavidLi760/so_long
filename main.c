@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/06/25 21:40:36 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/25 22:03:27 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,11 @@ void	init_map(t_vars *vars)
 		while (vars->map_line[i][j])
 		{
 			if (vars->map_line[i][j] == '1')
-				mlx_put_image_to_window(vars->mlx, vars->win, vars->img1, i * 65, j * 65);
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->img1, j * 65, i * 65);
 			if (vars->map_line[i][j] == '0')
-				mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, i * 65, j * 65);
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, j * 65, i * 65);
 			if (vars->map_line[i][j] == 'C')
-				mlx_put_image_to_window(vars->mlx, vars->win, vars->imgC, i * 65, j *65);
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->imgC, j * 65, i * 65);
 			j++;
 		}
 		i++;
@@ -195,13 +195,12 @@ int	main(int argc, char **argv)
 	vars.player1.y = 65;
 	vars.player2.x = 1755;
 	vars.player2.y = 845;
-	split_cleaner(vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.player1.img_g, vars.player1.x, vars.player1.y);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.player1.img_d, vars.player1.x, vars.player1.y);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.player2.img_d, vars.player2.x, vars.player2.y);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.player2.img_g, vars.player2.x, vars.player2.y);
 	init_map(&vars);
-
+	split_cleaner(&vars);
 	mlx_hook(vars.win, 17, 0, close_win, &vars);
 	mlx_hook(vars.win, 2, 1L << 0, key_press, &vars);
 	mlx_hook(vars.win, 3, 1L << 1, key_release, &vars);
