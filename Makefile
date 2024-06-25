@@ -1,6 +1,6 @@
 NAME		= so_long
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -Imlx
+CFLAGS		= -Wall -Wextra -Werror -Imlx -g3
 LFLAGS		= -Lmlx -lmlx -lX11 -lXext -lXrandr -lm
 LIBFT		= libft/libft.a
 PRINTF		= ft_printf/libftprintf.a

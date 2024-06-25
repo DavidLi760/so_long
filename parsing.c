@@ -112,8 +112,7 @@ void	get_map_pos(t_vars *vars)
 
 void	map_error(int argc, t_vars *vars)
 {
-	if (argc < 2 || argc > 2)
-		exit_error(-9, vars);
+	(void)	argc;
 	if (!check_rectangular(vars))
 		exit_error(-9, vars);
 	if (!is_closed(vars))

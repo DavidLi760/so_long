@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/06/25 18:58:40 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/25 21:15:21 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_vars
 	void		*win;
 	void		*img0;
 	void		*img1;
-	void		*img2;
+	void		*imgC;
 	char		*map_buf;
 	char		**map_line;
 	char		**map_temp;

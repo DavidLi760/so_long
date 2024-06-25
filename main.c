@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/06/25 19:31:14 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/25 21:40:36 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int	mouse_move(int x, int y, t_vars *vars)
 
 void	check_arg(t_vars *vars, int	argc, char **argv)
 {
+	if (argc < 2 || argc > 2)
+		exit(-9);
 	vars->map_fd = open(argv[1], O_RDONLY);
 	vars->map_buf = get_next_line(vars->map_fd);
 	if (!vars->map_buf)
@@ -119,16 +121,40 @@ void	check_arg(t_vars *vars, int	argc, char **argv)
 	vars->map_line = ft_split(vars->map_buf, '\n');
 	vars->map_temp = ft_split(vars->map_buf, '\n');
 	map_error(argc, vars);
-	split_cleaner(vars);
 	printf("Success\n");
+}
+
+void	init_map(t_vars *vars)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (vars->map_line[i])
+	{
+		j = 0;
+		while (vars->map_line[i][j])
+		{
+			if (vars->map_line[i][j] == '1')
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->img1, i * 65, j * 65);
+			if (vars->map_line[i][j] == '0')
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, i * 65, j * 65);
+			if (vars->map_line[i][j] == 'C')
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->imgC, i * 65, j *65);
+			j++;
+		}
+		i++;
+	}
 }
 
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
 	int		i;
-	int		j = 0;
 
+	vars.c_count = 0;
+	vars.e_count = 0;
+	vars.p_count = 0;
 	check_arg(&vars, argc, argv);
 	vars.mouse_pressed = 0;
 	vars.mlx = mlx_init();
@@ -144,8 +170,14 @@ int	main(int argc, char **argv)
 	vars.update_counter = 0;
 	while (i < 65365)
 		vars.key_state[i++] = 0;
-	vars.img0 = mlx_xpm_file_to_image(vars.mlx, "block.xpm", &vars.img_width, &vars.img_height);
+	vars.img0 = mlx_xpm_file_to_image(vars.mlx, "Eau.xpm", &vars.img_width, &vars.img_height);
 	if (!vars.img0)
+		exit(1);
+	vars.img1 = mlx_xpm_file_to_image(vars.mlx, "Wall.xpm", &vars.img_width, &vars.img_height);
+	if (!vars.img1)
+		exit(1);
+	vars.imgC = mlx_xpm_file_to_image(vars.mlx, "Wall.xpm", &vars.img_width, &vars.img_height);
+	if (!vars.imgC)
 		exit(1);
 	vars.player1.img_d = mlx_xpm_file_to_image(vars.mlx, "Poisson1d.xpm", &vars.player1.x, &vars.player1.y);
 	if (!vars.player1.img_d)
@@ -163,29 +195,13 @@ int	main(int argc, char **argv)
 	vars.player1.y = 65;
 	vars.player2.x = 1755;
 	vars.player2.y = 845;
+	split_cleaner(vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.player1.img_g, vars.player1.x, vars.player1.y);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.player1.img_d, vars.player1.x, vars.player1.y);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.player2.img_d, vars.player2.x, vars.player2.y);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.player2.img_g, vars.player2.x, vars.player2.y);
-	while (j < 15)
-	{
-		mlx_put_image_to_window(vars.mlx, vars.win, vars.img0, 0, 0 + j++ * 65);
-	}
-	j = 0;
-	while (j < 15)
-	{
-		mlx_put_image_to_window(vars.mlx, vars.win, vars.img0, 1820, 0 + j++ * 65);
-	}
-	j = 0;
-	while (j < 29)
-	{
-		mlx_put_image_to_window(vars.mlx, vars.win, vars.img0, 0 + j++ * 65, 0);
-	}
-	j = 0;
-	while (j < 29)
-	{
-		mlx_put_image_to_window(vars.mlx, vars.win, vars.img0, 0 + j++ * 65, 910);
-	}
+	init_map(&vars);
+
 	mlx_hook(vars.win, 17, 0, close_win, &vars);
 	mlx_hook(vars.win, 2, 1L << 0, key_press, &vars);
 	mlx_hook(vars.win, 3, 1L << 1, key_release, &vars);
