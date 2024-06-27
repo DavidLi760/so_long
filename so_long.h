@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/06/27 15:51:36 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/27 20:20:04 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@
 # define ARROW_DOWN 65364
 # define ARROW_LEFT 65361
 # define ARROW_RIGHT 65363
+# define I 105
+# define J 106
+# define K 107
+# define L 108
 
 typedef struct s_map
 {
@@ -63,6 +67,7 @@ typedef struct s_vars
 	void		*img0;
 	void		*img1;
 	void		*imgC;
+	void		*imgE;
 	char		*map_buf;
 	char		**map_line;
 	char		**map_temp;
@@ -71,7 +76,7 @@ typedef struct s_vars
 	int			map_y;
 	int			map_width;
 	int			map_height;
-	int			map_pixel[1890][980];
+	int			map_pixel[976][1886];
 	int			e_count;
 	int			p_count;
 	int			c_count;
@@ -93,7 +98,7 @@ int		check_opening(char *argv, t_vars *vars);
 int		check_rectangular(t_vars *vars);
 int		is_closed(t_vars *vars);
 void	get_map_pos(t_vars *vars);
-void	map_error(int argc, t_vars *vars);
+void	map_error(t_vars *vars);
 int		flood_fill(t_vars *vars);
 int		check_correct_char(t_vars *vars);
 void	split_cleaner(t_vars *vars);

@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 17:33:57 by davli             #+#    #+#             */
-/*   Updated: 2024/06/25 17:06:01 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/27 19:03:40 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,8 @@ void	get_map_pos(t_vars *vars)
 	}
 }
 
-void	map_error(int argc, t_vars *vars)
+void	map_error(t_vars *vars)
 {
-	(void)	argc;
 	if (!check_rectangular(vars))
 		exit_error(-9, vars);
 	if (!is_closed(vars))
