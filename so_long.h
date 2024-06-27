@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/06/25 21:15:21 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/27 15:51:36 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_vars
 	int			map_y;
 	int			map_width;
 	int			map_height;
+	int			map_pixel[1890][980];
 	int			e_count;
 	int			p_count;
 	int			c_count;
@@ -98,5 +99,6 @@ int		check_correct_char(t_vars *vars);
 void	split_cleaner(t_vars *vars);
 void	exit_error(int error, t_vars *vars);
 void	check_arg(t_vars *vars, int argc, char **argv);
+void	init_map(t_vars *vars);
 
 #endif
