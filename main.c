@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/06/27 20:29:29 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/29 15:06:58 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,27 @@ int	update(t_vars *vars)
 	vars->update_counter++;
 	if (vars->update_counter >= 150)
 	{
-		if (vars->key_state[W] && vars->map_pixel[vars->player1.y - 1][vars->player1.x] != 1) 
+		if (vars->key_state[W] && vars->map_pixel[vars->player1.y - 1][vars->player1.x] != 1)
 		{
 			vars->player1.y -= 1;
 			//			printf("Y%d, ", vars->player1.y);
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_d, vars->player1.x, vars->player1.y);
+			if (vars->key_state[D])
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_d, vars->player1.x, vars->player1.y);
+			else if (vars->key_state[A])
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_g, vars->player1.x, vars->player1.y);
+			else
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_d, vars->player1.x, vars->player1.y);
 		}
 		if (vars->key_state[S] && vars->map_pixel[vars->player1.y + 1][vars->player1.x] != 1)
 		{
 			vars->player1.y += 1;
 			//			printf("Y%d, ", vars->player1.y);
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_d, vars->player1.x, vars->player1.y);
+			if (vars->key_state[D])
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_d, vars->player1.x, vars->player1.y);
+			else if (vars->key_state[A])
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_g, vars->player1.x, vars->player1.y);
+			else
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.img_d, vars->player1.x, vars->player1.y);
 		}
 		if (vars->key_state[A] && vars->map_pixel[vars->player1.y][vars->player1.x - 1] != 1)
 		{
@@ -86,13 +96,23 @@ int	update(t_vars *vars)
 		{
 			vars->player2.y -= 1;
 			//			printf("Y%d, ", vars->player2.y);
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_g, vars->player2.x, vars->player2.y);
+			if (vars->key_state[ARROW_RIGHT])
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_d, vars->player2.x, vars->player2.y);
+			else if (vars->key_state[ARROW_LEFT])
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_g, vars->player2.x, vars->player2.y);
+			else
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_g, vars->player2.x, vars->player2.y);
 		}
 		if (vars->key_state[ARROW_DOWN] && vars->map_pixel[vars->player2.y + 1][vars->player2.x] != 1)
 		{
 			vars->player2.y += 1;
 			//			printf("Y%d, ", vars->player2.y);
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_g, vars->player2.x, vars->player2.y);
+			if (vars->key_state[ARROW_RIGHT])
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_d, vars->player2.x, vars->player2.y);
+			else if (vars->key_state[ARROW_LEFT])
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_g, vars->player2.x, vars->player2.y);
+			else
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_g, vars->player2.x, vars->player2.y);
 		}
 		if (vars->key_state[ARROW_LEFT] && vars->map_pixel[vars->player2.y][vars->player2.x - 1] != 1)
 		{
@@ -196,9 +216,9 @@ void	init_forbidden_zone(t_vars *vars, int i, int j)
 		{
 			if (forbidden == 1 && i > 0 && j > 0)
 			{
-				vars->map_pixel[temp_i - 65][temp_j] = forbidden;
-				vars->map_pixel[temp_i][temp_j - 65] = forbidden;
-				vars->map_pixel[temp_i - 65][temp_j - 65] = forbidden;
+				vars->map_pixel[temp_i - 64][temp_j - 1] = forbidden;
+				vars->map_pixel[temp_i - 1][temp_j - 64] = forbidden;
+				vars->map_pixel[temp_i - 64][temp_j - 64] = forbidden;
 			}
 			vars->map_pixel[temp_i][temp_j] = forbidden;
 			temp_j++;
@@ -265,10 +285,10 @@ int	main(int argc, char **argv)
 	vars.player1.img_g = mlx_xpm_file_to_image(vars.mlx, "Poisson1g.xpm", &vars.player1.x, &vars.player1.y);
 	if (!vars.player1.img_g)
 		exit (1);
-	vars.player2.img_g = mlx_xpm_file_to_image(vars.mlx, "Poisson3g.xpm", &vars.player2.x, &vars.player2.y);
+	vars.player2.img_g = mlx_xpm_file_to_image(vars.mlx, "Poisson2g.xpm", &vars.player2.x, &vars.player2.y);
 	if (!vars.player2.img_g)
 		exit (1);
-	vars.player2.img_d = mlx_xpm_file_to_image(vars.mlx, "Poisson3d.xpm", &vars.player2.x, &vars.player2.y);
+	vars.player2.img_d = mlx_xpm_file_to_image(vars.mlx, "Poisson2d.xpm", &vars.player2.x, &vars.player2.y);
 	if (!vars.player2.img_d)
 		exit (1);
 	vars.player1.x = vars.p_pos.x * 65;
