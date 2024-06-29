@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:24:11 by davli             #+#    #+#             */
-/*   Updated: 2024/06/25 21:37:55 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/29 18:37:59 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,11 @@ int	check_correct_char(t_vars *vars)
 		while (vars->map_line[i] && vars->map_line[i][j])
 		{
 			char_counter(vars->map_line[i][j], vars);
+			if (vars->map_line[i][j] != 'P' && vars->map_line[i][j] != 'E' &&
+					vars->map_line[i][j] != 'C' &&
+					vars->map_line[i][j] != '1' &&
+					vars->map_line[i][j] != '0')
+				exit_error(-5, vars);
 			j++;
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/06/29 15:06:58 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/29 20:40:05 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ int	close_win(t_vars *vars)
 		mlx_destroy_image(vars->mlx, vars->img0);
 	if (vars->img1)
 		mlx_destroy_image(vars->mlx, vars->img1);
-	if (vars->imgC)
-		mlx_destroy_image(vars->mlx, vars->imgC);
-	if (vars->imgE)
-		mlx_destroy_image(vars->mlx, vars->imgE);
+	if (vars->imgc)
+		mlx_destroy_image(vars->mlx, vars->imgc);
+	if (vars->imgp)
+		mlx_destroy_image(vars->mlx, vars->imgp);
+	if (vars->imge)
+		mlx_destroy_image(vars->mlx, vars->imge);
 	if (vars->player1.img_d)
 		mlx_destroy_image(vars->mlx, vars->player1.img_d);
 	if (vars->player1.img_g)
@@ -31,8 +33,13 @@ int	close_win(t_vars *vars)
 		mlx_destroy_image(vars->mlx, vars->player2.img_d);
 	if (vars->player2.img_g)
 		mlx_destroy_image(vars->mlx, vars->player2.img_g);
+	if (vars->player3.img_d)
+		mlx_destroy_image(vars->mlx, vars->player3.img_d);
+	if (vars->player3.img_g)
+		mlx_destroy_image(vars->mlx, vars->player3.img_g);
 	if (vars->mlx)
 		free(vars->mlx);
+	split_cleaner(vars);
 	exit (0);
 	return (0);
 }
@@ -56,7 +63,7 @@ int	key_release(int keycode, t_vars *vars)
 int	update(t_vars *vars)
 {
 	vars->update_counter++;
-	if (vars->update_counter >= 150)
+	if (vars->update_counter >= 350)
 	{
 		if (vars->key_state[W] && vars->map_pixel[vars->player1.y - 1][vars->player1.x] != 1)
 		{
@@ -126,6 +133,64 @@ int	update(t_vars *vars)
 			//			printf("X%d, ", vars->player2.x);
 			mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.img_d, vars->player2.x, vars->player2.y);
 		}
+		if (vars->mouse_pressed == 1)
+		{
+			if (vars->i <= 0)
+			{
+				if (vars->player3.x > vars->mouse_x - 32 && vars->player3.x > 0)
+				{
+					vars->player3.x -= 1;
+					mlx_put_image_to_window(vars->mlx, vars->win, vars->player3.img_g, vars->player3.x, vars->player3.y);
+				}
+				if (vars->player3.x < vars->mouse_x - 32 && vars->player3.x < 1820)
+				{	
+					vars->player3.x += 1;
+					mlx_put_image_to_window(vars->mlx, vars->win, vars->player3.img_d, vars->player3.x, vars->player3.y);
+				}
+				if (vars->player3.y > vars->mouse_y - 32 && vars->player3.y > 0)
+				{	
+					vars->player3.y -= 1;
+					if (vars->player3.x > vars->mouse_x - 32)
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->player3.img_g, vars->player3.x, vars->player3.y);
+					else
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->player3.img_d, vars->player3.x, vars->player3.y);
+				}
+				if (vars->player3.y < vars->mouse_y - 32 && vars->player3.y < 910)
+				{
+					vars->player3.y += 1;
+					if (vars->player3.x > vars->mouse_x - 32)
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->player3.img_g, vars->player3.x, vars->player3.y);
+					else
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->player3.img_d, vars->player3.x, vars->player3.y);
+				}
+				vars->i = 3;
+			}
+		}
+		vars->i--;
+		if (vars->player1.x == vars->p_pos.x * 65 && vars->player1.y == vars->p_pos.y * 65)
+		{
+			init_map(vars);
+			/*i = 0;
+			while (vars->map_line[i])
+			{
+				j = 0;
+				while (vars->map_line[i][j])
+				{
+					if (vars->map_line[i][j] == '1')
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->img1, j * 65, i * 65);
+					if (vars->map_line[i][j] == '0')
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, j * 65, i * 65);
+					if (vars->map_line[i][j] == 'C')
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->imgc, j * 65, i * 65);
+					if (vars->map_line[i][j] == 'P')
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, j * 65, i * 65);
+					if (vars->map_line[i][j] == 'E')
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->imge, j * 65, i * 65);
+					j++;
+				}
+				i++;
+			}*/
+		}
 		vars->update_counter = 0;
 	}
 	return (0);
@@ -135,7 +200,8 @@ int	mouse_press(int button, int x, int y, t_vars *vars)
 {
 	if (button == 1)
 		vars->mouse_pressed = 1;
-	mlx_pixel_put(vars->mlx, vars->win, x, y, 0x0000FF);
+	vars->mouse_x = x;
+	vars->mouse_y = y;
 	return (0);
 }
 
@@ -143,14 +209,18 @@ int	mouse_release(int button, int x, int y, t_vars *vars)
 {
 	if (button == 1)
 		vars->mouse_pressed = 0;
-	mlx_pixel_put(vars->mlx, vars->win, x, y, 0x000000);
+	vars->mouse_x = x;
+	vars->mouse_y = y;
 	return (0);
 }
 
 int	mouse_move(int x, int y, t_vars *vars)
 {
 	if (vars->mouse_pressed == 1)
-		mlx_pixel_put(vars->mlx, vars->win, x, y, 0x0000FF);
+	{
+		vars->mouse_x = x;
+		vars->mouse_y = y;
+	}
 	return (0);
 }
 
@@ -163,11 +233,14 @@ void	check_arg(t_vars *vars, int	argc, char **argv)
 		exit (-1);
 	vars->map_buf = get_next_line(vars->map_fd);
 	if (!vars->map_buf)
-		exit (-1);
+		exit_error(-1, vars);
 	vars->map_line = ft_split(vars->map_buf, '\n');
+	if (!vars->map_line)
+		exit ((free(vars->map_buf), 1));
 	vars->map_temp = ft_split(vars->map_buf, '\n');
+	if (!vars->map_line)
+		exit ((free(vars->map_buf), free(vars->map_line), 1));
 	map_error(vars);
-	printf("Success\n");
 }
 
 void	init_map(t_vars *vars)
@@ -186,11 +259,11 @@ void	init_map(t_vars *vars)
 			if (vars->map_line[i][j] == '0')
 				mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, j * 65, i * 65);
 			if (vars->map_line[i][j] == 'C')
-				mlx_put_image_to_window(vars->mlx, vars->win, vars->imgC, j * 65, i * 65);
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->imgc, j * 65, i * 65);
 			if (vars->map_line[i][j] == 'P')
-				mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, j * 65, i * 65);
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->imgp, j * 65, i * 65);
 			if (vars->map_line[i][j] == 'E')
-				mlx_put_image_to_window(vars->mlx, vars->win, vars->imgE, j * 65, i * 65);
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->imge, j * 65, i * 65);
 			j++;
 		}
 		i++;
@@ -250,6 +323,7 @@ int	main(int argc, char **argv)
 	t_vars	vars;
 	int		i;
 
+	vars.i = 2500;
 	vars.c_count = 0;
 	vars.e_count = 0;
 	vars.p_count = 0;
@@ -258,7 +332,7 @@ int	main(int argc, char **argv)
 	vars.mlx = mlx_init();
 	if (vars.mlx == NULL)
 		return (1);
-	vars.win = mlx_new_window(vars.mlx, 1885, 975, "so_long");
+	vars.win = mlx_new_window(vars.mlx, vars.map_width * 65, vars.map_height * 65, "so_long");
 	if (vars.mlx == NULL)
 	{
 		free(vars.mlx);
@@ -267,41 +341,51 @@ int	main(int argc, char **argv)
 	i = 0;
 	while (i < 65365)
 		vars.key_state[i++] = 0;
-	vars.img0 = mlx_xpm_file_to_image(vars.mlx, "Eau.xpm", &vars.img_width, &vars.img_height);
+	vars.img0 = mlx_xpm_file_to_image(vars.mlx, "xpm/Eau.xpm", &vars.img_width, &vars.img_height);
 	if (!vars.img0)
 		exit(1);
-	vars.img1 = mlx_xpm_file_to_image(vars.mlx, "Wall.xpm", &vars.img_width, &vars.img_height);
+	vars.imgp = mlx_xpm_file_to_image(vars.mlx, "xpm/Spawn.xpm", &vars.img_width, &vars.img_height);
+	if (!vars.imgp)
+		exit(1);
+	vars.img1 = mlx_xpm_file_to_image(vars.mlx, "xpm/Wall.xpm", &vars.img_width, &vars.img_height);
 	if (!vars.img1)
 		exit(1);
-	vars.imgC = mlx_xpm_file_to_image(vars.mlx, "Wall.xpm", &vars.img_width, &vars.img_height);
-	if (!vars.imgC)
+	vars.imgc = mlx_xpm_file_to_image(vars.mlx, "xpm/Wall.xpm", &vars.img_width, &vars.img_height);
+	if (!vars.imgc)
 		exit(1);
-	vars.imgE = mlx_xpm_file_to_image(vars.mlx, "PortalClose.xpm", &vars.img_width, &vars.img_height);
-	if (!vars.imgC)
+	vars.imge = mlx_xpm_file_to_image(vars.mlx, "xpm/PortalClose.xpm", &vars.img_width, &vars.img_height);
+	if (!vars.imge)
 		exit(1);
-	vars.player1.img_d = mlx_xpm_file_to_image(vars.mlx, "Poisson1d.xpm", &vars.player1.x, &vars.player1.y);
+	vars.player1.img_d = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1d.xpm", &vars.player1.x, &vars.player1.y);
 	if (!vars.player1.img_d)
 		exit (1);
-	vars.player1.img_g = mlx_xpm_file_to_image(vars.mlx, "Poisson1g.xpm", &vars.player1.x, &vars.player1.y);
+	vars.player1.img_g = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1g.xpm", &vars.player1.x, &vars.player1.y);
 	if (!vars.player1.img_g)
 		exit (1);
-	vars.player2.img_g = mlx_xpm_file_to_image(vars.mlx, "Poisson2g.xpm", &vars.player2.x, &vars.player2.y);
+	vars.player2.img_g = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2g.xpm", &vars.player2.x, &vars.player2.y);
 	if (!vars.player2.img_g)
 		exit (1);
-	vars.player2.img_d = mlx_xpm_file_to_image(vars.mlx, "Poisson2d.xpm", &vars.player2.x, &vars.player2.y);
+	vars.player2.img_d = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2d.xpm", &vars.player2.x, &vars.player2.y);
 	if (!vars.player2.img_d)
 		exit (1);
-	vars.player1.x = vars.p_pos.x * 65;
-	vars.player1.y = vars.p_pos.y * 65;
-	vars.player2.x = vars.p_pos.x * 65;
-	vars.player2.y = vars.p_pos.y * 65;
+	vars.player3.img_g = mlx_xpm_file_to_image(vars.mlx, "xpm/Shinigami2g.xpm", &vars.player3.x, &vars.player3.y);
+	if (!vars.player3.img_g)
+		exit (1);
+	vars.player3.img_d = mlx_xpm_file_to_image(vars.mlx, "xpm/Shinigami2d.xpm", &vars.player3.x, &vars.player3.y);
+	if (!vars.player3.img_d)
+		exit (1);
+	vars.player1.x = vars.p_pos.y * 65;
+	vars.player1.y = vars.p_pos.x * 65;
+	vars.player2.x = vars.p_pos.y * 65;
+	vars.player2.y = vars.p_pos.x * 65;
+	vars.player3.x = vars.e_pos.y * 65;
+	vars.player3.y = vars.e_pos.x * 65;
 	//	mlx_put_image_to_window(vars.mlx, vars.win, vars.player1.img_g, vars.player1.x, vars.player1.y);
 	//	mlx_put_image_to_window(vars.mlx, vars.win, vars.player1.img_d, vars.player1.x, vars.player1.y);
 	//	mlx_put_image_to_window(vars.mlx, vars.win, vars.player2.img_d, vars.player2.x, vars.player2.y);
 	//	mlx_put_image_to_window(vars.mlx, vars.win, vars.player2.img_g, vars.player2.x, vars.player2.y);
 	init_map(&vars);
 	forbidden_zone(&vars);
-	split_cleaner(&vars);
 	vars.update_counter = 101;
 	mlx_hook(vars.win, 17, 0, close_win, &vars);
 	mlx_hook(vars.win, 2, 1L << 0, key_press, &vars);
@@ -311,5 +395,6 @@ int	main(int argc, char **argv)
 	mlx_hook(vars.win, 5, 1L << 3, mouse_release, &vars);
 	mlx_hook(vars.win, 6, 1L << 6, mouse_move, &vars);
 	mlx_loop(vars.mlx);
+	split_cleaner(&vars);
 }
 

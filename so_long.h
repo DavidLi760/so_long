@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/06/27 20:20:04 by davli            ###   ########.fr       */
+/*   Updated: 2024/06/29 19:34:18 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "ft_printf/ft_printf.h"
 # include "libft/libft.h"
 
+# define LEFT 0
+# define RIGHT 0
 # define MAX_MAP 100
 # define W 119
 # define S 115
@@ -60,18 +62,31 @@ typedef struct s_pos
 	int	y;
 }	t_pos;
 
+typedef struct s_monster
+{
+	int					x;
+	int					y;
+	int					power;
+	float				spawn_probability;
+	int					direction;
+	struct s_monster	*next;
+}	t_monster;
+
 typedef struct s_vars
 {
 	void		*mlx;
 	void		*win;
 	void		*img0;
 	void		*img1;
-	void		*imgC;
-	void		*imgE;
+	void		*imgc;
+	void		*imgp;
+	void		*imge;
 	char		*map_buf;
 	char		**map_line;
 	char		**map_temp;
 	int			map_fd;
+	int			i;
+	int			j;
 	int			map_x;
 	int			map_y;
 	int			map_width;
@@ -87,11 +102,15 @@ typedef struct s_vars
 	int			key_state[65365];
 	int			update_counter;
 	int			mouse_pressed;
+	int			mouse_x;
+	int			mouse_y;
 	t_pos		p_pos;
 	t_pos		e_pos;
 	t_player	player1;
 	t_player	player2;
-
+	t_player	player3;
+	t_monster	monsters;
+	int			num_monsters;
 }	t_vars;
 
 int		check_opening(char *argv, t_vars *vars);
