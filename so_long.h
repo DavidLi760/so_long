@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/06/29 19:34:18 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/01 19:11:07 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_player
 	int		power;
 	void	*img_d;
 	void	*img_g;
+	int		dead;
 	int		img_width;
 	int		img_height;
 }	t_player;
@@ -91,15 +92,18 @@ typedef struct s_vars
 	int			map_y;
 	int			map_width;
 	int			map_height;
-	int			map_pixel[976][1886];
+	int			**map_pixel;
 	int			e_count;
 	int			p_count;
 	int			c_count;
+	int			mv_count;
+	int			boost_i;
+	int			goal;
 	int			img_width;
 	int			img_height;
 	int			pos_x;
 	int			pos_y;
-	int			key_state[65365];
+	int			*key_state;
 	int			update_counter;
 	int			mouse_pressed;
 	int			mouse_x;
