@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 16:24:11 by davli             #+#    #+#             */
-/*   Updated: 2024/06/29 18:37:59 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/02 19:30:39 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,6 @@ int	check_correct_char(t_vars *vars)
 	}
 	if (vars->e_count != 1 || vars->p_count != 1 || vars->c_count < 1)
 		return (0);
+	vars->c_left = vars->c_count;
 	return (1);
 }

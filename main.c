@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/07/01 19:52:04 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/02 20:01:03 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	close_win(t_vars *vars)
 		mlx_destroy_image(vars->mlx, vars->imgp);
 	if (vars->imge)
 		mlx_destroy_image(vars->mlx, vars->imge);
+	if (vars->imge2)
+		mlx_destroy_image(vars->mlx, vars->imge2);
 	if (vars->player1.img_d)
 		mlx_destroy_image(vars->mlx, vars->player1.img_d);
 	if (vars->player1.img_g)
@@ -40,6 +42,34 @@ int	close_win(t_vars *vars)
 		mlx_destroy_image(vars->mlx, vars->player3.img_d);
 	if (vars->player3.img_g)
 		mlx_destroy_image(vars->mlx, vars->player3.img_g);
+	if (vars->player1.d1)
+		mlx_destroy_image(vars->mlx, vars->player1.d1);
+	if (vars->player1.d2)
+		mlx_destroy_image(vars->mlx, vars->player1.d2);
+	if (vars->player1.d3)
+		mlx_destroy_image(vars->mlx, vars->player1.d3);
+	if (vars->player1.d4)
+		mlx_destroy_image(vars->mlx, vars->player1.d4);
+	if (vars->player1.d5)
+		mlx_destroy_image(vars->mlx, vars->player1.d5);
+	if (vars->player1.d6)
+		mlx_destroy_image(vars->mlx, vars->player1.d6);
+	if (vars->player1.d7)
+		mlx_destroy_image(vars->mlx, vars->player1.d7);
+	if (vars->player2.d1)
+		mlx_destroy_image(vars->mlx, vars->player2.d1);
+	if (vars->player2.d2)
+		mlx_destroy_image(vars->mlx, vars->player2.d2);
+	if (vars->player2.d3)
+		mlx_destroy_image(vars->mlx, vars->player2.d3);
+	if (vars->player2.d4)
+		mlx_destroy_image(vars->mlx, vars->player2.d4);
+	if (vars->player2.d5)
+		mlx_destroy_image(vars->mlx, vars->player2.d5);
+	if (vars->player2.d6)
+		mlx_destroy_image(vars->mlx, vars->player2.d6);
+	if (vars->player2.d7)
+		mlx_destroy_image(vars->mlx, vars->player2.d7);
 	if (vars->mlx)
 		mlx_destroy_display(vars->mlx);
 	if (vars->mlx)
@@ -53,24 +83,87 @@ int	close_win(t_vars *vars)
 	exit (0);
 	return (0);
 }
-/*
+
+void	portal_open(t_vars *vars)
+{
+	int	x;
+	int	y;
+
+	x = vars->e_pos.x * 65;
+	y = vars->e_pos.y * 65;
+	if (vars->goal == 0)
+	{
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->imge2, y, x);
+	}
+}
+
+void	winning(t_vars *vars)
+{
+	int	x1;
+	int	y1;
+	int	x2;
+	int	y2;
+
+	x1 = vars->player1.x / 65;
+	y1 = vars->player1.y / 65;
+	x2 = vars->player2.x / 65;
+	y2 = vars->player2.y / 65;
+	if (!vars->goal)
+	{
+		if (vars->map_line[y1][x1] == 'E')
+		{
+			printf("You win\n");
+			close_win(vars);
+		}
+		if (vars->map_line[y2][x2] == 'E')
+		{
+			printf("You win");
+			close_win(vars);
+		}
+	}
+}
+
 void	collect_fish(t_vars *vars)
 {
-	if (vars->map_line[i][j] == 'C')
-	if (vars->player1.x >= vars->player3.x - 65 && vars->player1.x <= vars->player3.x + 65 && vars->player1.y >= vars->player3.y - 65 && vars->player3.y && vars->player1.y <= i * 65 + 65)
+	int	x1;
+	int	y1;
+	int	x2;
+	int	y2;
+
+	x1 = vars->player1.x / 65;
+	y1 = vars->player1.y / 65;
+	x2 = vars->player2.x / 65;
+	y2 = vars->player2.y / 65;
+	if (vars->map_line[y1][x1] == 'C')
+	{
+		vars->goal--;
+		vars->map_line[y1][x1] = '0';
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, x1 * 65, y1 * 65);
+	}
+	if (vars->map_line[y2][x2] == 'C')
+	{
+		vars->map_line[y2][x2] = '0';
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, x2 * 65, y2 * 65);
+	}
 }
-*/
 
 void	counter(t_vars *vars)
 {
-	char	*value;
+	char	*move;
+	char	*left;
 
-	value = ft_itoa(vars->mv_count);
+	left = ft_itoa(vars->goal);
+	move = ft_itoa(vars->mv_count);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img1, 0, 0);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img1, 65, 0);
-	mlx_string_put(vars->mlx, vars->win, 15, 40, 0x00FFFFFF, value);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img1, 195, 0);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img1, 260, 0);
+	mlx_string_put(vars->mlx, vars->win, 15, 40, 0x00FFFFFF, move);
 	mlx_string_put(vars->mlx, vars->win, 15, 20, 0x00FFFFFF, "Movement count :");
-	free(value);
+	mlx_string_put(vars->mlx, vars->win, 215, 40, 0x00FFFFFF, left);
+	mlx_string_put(vars->mlx, vars->win, 215, 20, 0x00FFFFFF, "Collectible left :");
+	free(move);
+	free(left);
 }
 
 int	key_press(int keycode, t_vars *vars)
@@ -89,23 +182,73 @@ int	key_release(int keycode, t_vars *vars)
 	return (0);
 }
 
+void	death_animation2(t_vars *vars)
+{
+	if (vars->player2.dead == 0)
+		vars->death_j = 0;
+	if (vars->death_j == 50)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.d1, vars->player2.x, vars->player2.y);
+	if (vars->death_j == 100)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.d2, vars->player2.x, vars->player2.y);
+	if (vars->death_j == 150)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.d3, vars->player2.x, vars->player2.y);
+	if (vars->death_j == 200)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.d4, vars->player2.x, vars->player2.y);
+	if (vars->death_j == 250)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.d5, vars->player2.x, vars->player2.y);
+	if (vars->death_j == 300)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.d6, vars->player2.x, vars->player2.y);
+	if (vars->death_j == 350)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player2.d7, vars->player2.x, vars->player2.y);
+	if (vars->death_j >= 351)
+		vars->death2 = 1;
+}
+
+void	death_animation1(t_vars *vars)
+{
+	if (vars->player1.dead == 0)
+		vars->death_i = 0;
+	if (vars->death_i == 50)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.d1, vars->player1.x, vars->player1.y);
+	if (vars->death_i == 100)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.d2, vars->player1.x, vars->player1.y);
+	if (vars->death_i == 150)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.d3, vars->player1.x, vars->player1.y);
+	if (vars->death_i == 200)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.d4, vars->player1.x, vars->player1.y);
+	if (vars->death_i == 250)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.d5, vars->player1.x, vars->player1.y);
+	if (vars->death_i == 300)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.d6, vars->player1.x, vars->player1.y);
+	if (vars->death_i == 350)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->player1.d7, vars->player1.x, vars->player1.y);
+	if (vars->death_i >= 351)
+		vars->death1 = 1;
+}
+
 void	kill_player(t_vars *vars)
 {
 	if (vars->player1.x >= vars->player3.x - 65 && vars->player1.x <= vars->player3.x + 65 && vars->player1.y >= vars->player3.y - 65 && vars->player3.y && vars->player1.y <= vars->player3.y + 65)
-	{
-		vars->player1.dead = 1;
-
-	}
+		if (vars->i <= 0 && !vars->player1.dead && vars->goal)
+			vars->player1.dead = 1;
 	if (vars->player2.x >= vars->player3.x - 65 && vars->player2.x <= vars->player3.x + 65 && vars->player2.y >= vars->player3.y - 65 && vars->player3.y && vars->player2.y <= vars->player3.y + 65)
-		vars->player2.dead = 1;
+		if (vars->i <= 0 && !vars->player1.dead && vars->goal)
+			vars->player2.dead = 1;
+	if (vars->player1.dead && vars->player2.dead && vars->death1 == 1 && vars->death2 == 1)
+	{
+		ft_printf("**************\n");
+		ft_printf("* Game Over! *\n* You lose ! *\n");
+		ft_printf("**************\n");
+		close_win(vars);
+	}
 }
+
 
 int	update(t_vars *vars)
 {
 	vars->update_counter++;
 	if (vars->update_counter >= 400)
 	{
-		kill_player(vars);
 		counter(vars);
 		if (vars->key_state[W] && vars->map_pixel[vars->player1.y - 1][vars->player1.x] != 1)
 		{
@@ -233,21 +376,37 @@ int	update(t_vars *vars)
 			}
 		}
 		vars->i--;
-		if (vars->boost_i >= 4242)
+		if (vars->boost_i >= 42)
 		{
 			if (vars->boost_i == 4242)
 				mlx_put_image_to_window(vars->mlx, vars->win, vars->imgp, vars->p_pos.y * 65, vars->p_pos.x * 65);
 			if (vars->player1.x == vars->p_pos.x * 65 && vars->player1.y == vars->p_pos.y * 65)
 			{
-				vars->boost_i = 0;
-				init_map(vars);
+				if (!vars->player1.dead)
+				{
+					vars->boost_i = 0;
+					init_map(vars);
+				}
 			}
 			if (vars->player2.x == vars->p_pos.x * 65 && vars->player2.y == vars->p_pos.y * 65)
 			{
-				vars->boost_i = 0;
-				init_map(vars);
+				if (!vars->player2.dead)
+				{
+					vars->boost_i = 0;
+					init_map(vars);
+				}
 			}
 		}
+		kill_player(vars);
+		if (vars->death1 == 0)
+			death_animation1(vars);
+		if (vars->death2 == 0)
+			death_animation2(vars);
+		collect_fish(vars);
+		portal_open(vars);
+		winning(vars);
+		vars->death_i++;
+		vars->death_j++;
 		vars->boost_i++;
 		vars->update_counter = 0;
 	}
@@ -328,31 +487,13 @@ void	init_map(t_vars *vars)
 	}
 }
 
-void	init_collectible(t_vars *vars)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (vars->map_line[i])
-	{
-		j = 0;
-		while (vars->map_line[i][j])
-		{
-			if (vars->map_line[i][j])
-			j++;
-		}
-		i++;
-	}
-}
-
-void	init_forbidden_zone(t_vars *vars, int i, int j)
+void	forbidden_zone(t_vars *vars, int i, int j)
 {
 	int	forbidden;
 	int		temp_i;
 	int		temp_j;
 
-	if (vars->map_line[i][j] == '1' || vars->map_line[i][j] == 'E')
+	if (vars->map_line[i][j] == '1')
 		forbidden = 1;
 	else
 		forbidden = 0;
@@ -376,7 +517,7 @@ void	init_forbidden_zone(t_vars *vars, int i, int j)
 	}
 }
 
-void	forbidden_zone(t_vars *vars)
+void	init_zone(t_vars *vars)
 {
 	int	i;
 	int	j;
@@ -387,7 +528,7 @@ void	forbidden_zone(t_vars *vars)
 		j = 0;
 		while (vars->map_line[i][j])
 		{
-			init_forbidden_zone(vars, i, j);
+			forbidden_zone(vars, i, j);
 			j++;
 		}
 		i++;
@@ -402,14 +543,18 @@ int	main(int argc, char **argv)
 	vars.i = 2500;
 	vars.player1.dead = 0;
 	vars.player2.dead = 0;
+	vars.death_i = 0;
+	vars.death_j = 0;
+	vars.death1 = 0;
+	vars.death2 = 0;
 	vars.boost_i = 0;
-	vars.goal = 5;
 	vars.c_count = 0;
 	vars.e_count = 0;
 	vars.p_count = 0;
 	vars.mv_count = 0;
 	check_arg(&vars, argc, argv);
 	vars.mouse_pressed = 0;
+	vars.goal = vars.c_left;
 	vars.mlx = mlx_init();
 	if (vars.mlx == NULL)
 		return (1);
@@ -444,6 +589,9 @@ int	main(int argc, char **argv)
 	vars.imge = mlx_xpm_file_to_image(vars.mlx, "xpm/PortalClose.xpm", &vars.img_width, &vars.img_height);
 	if (!vars.imge)
 		exit(1);
+	vars.imge2 = mlx_xpm_file_to_image(vars.mlx, "xpm/PortalOpen.xpm", &vars.img_width, &vars.img_height);
+	if (!vars.imge2)
+		exit(1);
 	vars.player1.img_d = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1d.xpm", &vars.player1.x, &vars.player1.y);
 	if (!vars.player1.img_d)
 		exit (1);
@@ -468,8 +616,50 @@ int	main(int argc, char **argv)
 	vars.player2.y = vars.p_pos.x * 65;
 	vars.player3.x = vars.e_pos.y * 65;
 	vars.player3.y = vars.e_pos.x * 65;
+	vars.player1.d1 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort1.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d1)
+		exit (1);
+	vars.player1.d2 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort2.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d2)
+		exit (1);
+	vars.player1.d3 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort3.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d3)
+		exit (1);
+	vars.player1.d4 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort4.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d4)
+		exit (1);
+	vars.player1.d5 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort5.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d5)
+		exit (1);
+	vars.player1.d6 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort6.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d6)
+		exit (1);
+	vars.player1.d7 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort7.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d7)
+		exit (1);
+	vars.player2.d1 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort1.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d1)
+		exit (1);
+	vars.player2.d2 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort2.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d2)
+		exit (1);
+	vars.player2.d3 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort3.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d3)
+		exit (1);
+	vars.player2.d4 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort4.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d4)
+		exit (1);
+	vars.player2.d5 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort5.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d5)
+		exit (1);
+	vars.player2.d6 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort6.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d6)
+		exit (1);
+	vars.player2.d7 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort7.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d7)
+		exit (1);
 	init_map(&vars);
-	forbidden_zone(&vars);
+	init_zone(&vars);
 	vars.update_counter = 101;
 	mlx_hook(vars.win, 17, 0, close_win, &vars);
 	mlx_hook(vars.win, 2, 1L << 0, key_press, &vars);

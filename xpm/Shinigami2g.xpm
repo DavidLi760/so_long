@@ -63,7 +63,7 @@ static char *ee6b2763d3504253e230cbe41132a5bexvnLOafxS2I306vk[] = {
 "C  c #1C6673",
 "Z  c #166976",
 "A  c #1B6977",
-"S  c #136E7C",
+"S  c #808080",
 "D  c #1A6A78",
 "F  c #25606F",
 "G  c #2A626C",
@@ -155,7 +155,7 @@ static char *ee6b2763d3504253e230cbe41132a5bexvnLOafxS2I306vk[] = {
 "C. c #A7A07D",
 "Z. c #AAA27E",
 "A. c #949186",
-"S. c #A49D82",
+"S. c #808080",
 "D. c #99A680",
 "F. c #99AB82",
 "G. c #9FA88F",
@@ -254,8 +254,8 @@ static char *ee6b2763d3504253e230cbe41132a5bexvnLOafxS2I306vk[] = {
 "S 0 ! 0 g.N.j.: : U [ -.o.0.B.c.r.J.b.F.F.U.9X>X&X>X XF.N.Q.0X4Xb. .f D S S H b #.rXdX8XR.` C S k h A.^.,X7XqXH.Z.! D S S H b A S ",
 "S ! } e [ F.E.B.: 2 3 2 = $ O # * / 9.j.V.F.9X4X@XL.c...0.OX0XOXD.j.-.u S S s i ^.dXtX).7.g A ( Q.uXrXfXpXeXqX.X).I.( A S H b A S ",
 "S ! ^ 3 $ 9.Y.oXB.0 3 6 7 6 7 6 % X X % : -.s.X.=.8.c.;.l.!.W.@X].E.[...H n s 8.iXwX_.x.z s Q R.yXaX/.tX*X}.).R.).).R.| B n D S S ",
-"D - 3 3 O : a.oX XB.0 1.4.3.4.>.1.> o o o R *.c.@X=X XJ.g.k.L.4X].B.].b.Y m ^ #XT.I.I.h S c u.).XX.Xm.Z.7.| R J  .m.).T.( b S S S ",
-"D ( _.v.: o R ].oX;XQ.<.4.4.>.>.3.> . . . [ &X0XtX4XoXy.0.Y.9X9X].B.B.[.j.z z.#XR.H. .D C [ H.).R.X.K i x F D D C K t.R.H.e.f S S ",
+"S - 3 3 O : a.oX XB.0 1.4.3.4.>.1.> o o o R *.c.@X=X XJ.g.k.L.4X].B.].b.Y m ^ #XT.I.I.h S c u.).XX.Xm.Z.7.| R J  .m.).T.( b S S S ",
+"S ( _.v.: o R ].oX;XQ.<.4.4.>.>.3.> . . . [ &X0XtX4XoXy.0.Y.9X9X].B.B.[.j.z z.#XR.H. .D C [ H.).R.X.K i x F D D C K t.R.H.e.f S S ",
 "S $.pXeX_.t.% -.].4X0X|.5.4.2.2.5.% . . . U +X0X>X{.z.=.` U.&X%X].U.U.j.j.L T.qX_.x.c y n.7X`.).+.B S S D b H H S n p @.H.).C.! S ",
 "S #.aXwX_.#XH.< q.%X0X0X-X6.,.1.7 $ . . . ; [.0X>X{.B.B.*.c.J.E.a.P  .0.F.-.<XeX.X_ | *XeXeX_.7.z S S S S S S S v H H C z Y @.&.S ",
 "S F uX7X(.8X.Xe., y.;X0X0X5Xb.- 3 O . . . @ {.0X0X=X].U.F. X Xn.j.* X ; O.h.*X1X).R.wXeXeX*Xt.h S Z H S S S S H x D n C S S S k S ",
@@ -293,5 +293,5 @@ static char *ee6b2763d3504253e230cbe41132a5bexvnLOafxS2I306vk[] = {
 "S S S S S S S S S S S S S S S S S S S S S S S S S S S S A e m.x.x x n H x S S S S S S S S S S S S S S S S S S S S S S S S S S S S ",
 "S S S S S S S S S S S S S S S S S S S S S S S S S S S S S D M x.{ Z S D S S S S S S S S S S S S S S S S S S S S S S S S S S S S S ",
 "S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S h ( Z S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S ",
-"S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S Z S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S "
+"S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S S "
 };
