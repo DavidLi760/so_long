@@ -135,7 +135,7 @@ int	main(int argc, char **argv)
 	vars.map_temp = ft_split(vars.map_buf, '\n');
 	map_error(argc, &vars);
 	split_cleaner(&vars);
-	printf("Success\n");
+	ft_printf("Success\n");
 	return (0);
 }
 */

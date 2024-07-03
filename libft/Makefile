@@ -64,6 +64,7 @@ fclean: clean
 			${RM} ${NAME}
 
 re: fclean all
+	rm -rf ${OBJS}
 
 bonus:		${OBJS} ${BONUS_OBJS}
 			ar -rcs ${NAME} ${OBJS} ${BONUS_OBJS}

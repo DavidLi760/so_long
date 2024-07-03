@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/07/03 15:39:24 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/03 20:01:42 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_vars
 	int			death1;
 	int			death2;
 	int			goal;
+	int			img;
 	int			img_width;
 	int			img_height;
 	int			pos_x;
@@ -124,9 +125,9 @@ typedef struct s_vars
 	int			mouse_y;
 	t_pos		p_pos;
 	t_pos		e_pos;
-	t_player	player1;
-	t_player	player2;
-	t_player	player3;
+	t_player	p1;
+	t_player	p2;
+	t_player	p3;
 	t_monster	monsters;
 	int			num_monsters;
 }	t_vars;
@@ -140,7 +141,22 @@ int		flood_fill(t_vars *vars);
 int		check_correct_char(t_vars *vars);
 void	split_cleaner(t_vars *vars);
 void	exit_error(int error, t_vars *vars);
+void	vars_declare1(t_vars *vars, int argc, char **argv);
+void	vars_declare2(t_vars *vars);
+void	vars_declare3(t_vars *vars, int x, int y);
+void	vars_declare4(t_vars *vars, int *m);
+void	vars_declare5(t_vars *vars, int *m);
+void	vars_declare6(t_vars *vars, int *m);
+void	vars_declare7(t_vars *vars, int *m);
+int		close_win(t_vars *vars);
 void	check_arg(t_vars *vars, int argc, char **argv);
+void	init_zone(t_vars *vars);
 void	init_map(t_vars *vars);
+int		mouse_press(int button, int x, int y, t_vars *vars);
+int		mouse_release(int button, int x, int y, t_vars *vars);
+int		mouse_move(int x, int y, t_vars *vars);
+int		key_press(int keycode, t_vars *vars);
+int		key_release(int keycode, t_vars *vars);
+void	press_button(t_vars *vars);
 
 #endif

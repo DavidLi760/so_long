@@ -28,5 +28,6 @@ clean:
 fclean: clean
 		rm -f ${NAME}
 re:	fclean all
+	rm -rf ${OBJS}
 
 .PHONY: all clean fclean re

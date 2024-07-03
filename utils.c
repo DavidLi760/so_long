@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 14:51:29 by davli             #+#    #+#             */
-/*   Updated: 2024/07/03 16:30:33 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/03 18:24:35 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	split_cleaner(t_vars *vars)
 
 	i = 0;
 	if (vars->map_line)
-	while (vars->map_line[i])
-		free(vars->map_line[i++]);
+		while (vars->map_line[i])
+			free(vars->map_line[i++]);
 	i = 0;
 	if (vars->map_temp)
 		while (vars->map_temp[i])
