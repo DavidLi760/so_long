@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/07/02 20:01:03 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/03 17:23:05 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,16 @@ void	winning(t_vars *vars)
 	y2 = vars->player2.y / 65;
 	if (!vars->goal)
 	{
-		if (vars->map_line[y1][x1] == 'E')
+		if (vars->map_line[y1][x1] == 'E' && !vars->player1.dead)
 		{
-			printf("You win\n");
+			ft_printf("********************\n* Congratulation ! *\n*    You win       *\n");
+			ft_printf("********************\n");
 			close_win(vars);
 		}
-		if (vars->map_line[y2][x2] == 'E')
+		if (vars->map_line[y2][x2] == 'E' && !vars->player2.dead)
 		{
-			printf("You win");
+			ft_printf("********************\n* Congratulation ! *\n*    You win       *\n");
+			ft_printf("********************\n");
 			close_win(vars);
 		}
 	}
@@ -142,6 +144,7 @@ void	collect_fish(t_vars *vars)
 	}
 	if (vars->map_line[y2][x2] == 'C')
 	{
+		vars->goal--;
 		vars->map_line[y2][x2] = '0';
 		mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, x2 * 65, y2 * 65);
 	}
@@ -232,7 +235,7 @@ void	kill_player(t_vars *vars)
 		if (vars->i <= 0 && !vars->player1.dead && vars->goal)
 			vars->player1.dead = 1;
 	if (vars->player2.x >= vars->player3.x - 65 && vars->player2.x <= vars->player3.x + 65 && vars->player2.y >= vars->player3.y - 65 && vars->player3.y && vars->player2.y <= vars->player3.y + 65)
-		if (vars->i <= 0 && !vars->player1.dead && vars->goal)
+		if (vars->i <= 0 && !vars->player2.dead && vars->goal)
 			vars->player2.dead = 1;
 	if (vars->player1.dead && vars->player2.dead && vars->death1 == 1 && vars->death2 == 1)
 	{
@@ -376,11 +379,11 @@ int	update(t_vars *vars)
 			}
 		}
 		vars->i--;
-		if (vars->boost_i >= 42)
+		if (vars->boost_i >= 4242)
 		{
 			if (vars->boost_i == 4242)
 				mlx_put_image_to_window(vars->mlx, vars->win, vars->imgp, vars->p_pos.y * 65, vars->p_pos.x * 65);
-			if (vars->player1.x == vars->p_pos.x * 65 && vars->player1.y == vars->p_pos.y * 65)
+			if (vars->player1.x == vars->p_pos.y * 65 && vars->player1.y == vars->p_pos.x * 65)
 			{
 				if (!vars->player1.dead)
 				{
@@ -388,7 +391,7 @@ int	update(t_vars *vars)
 					init_map(vars);
 				}
 			}
-			if (vars->player2.x == vars->p_pos.x * 65 && vars->player2.y == vars->p_pos.y * 65)
+			if (vars->player2.x == vars->p_pos.y * 65 && vars->player2.y == vars->p_pos.x * 65)
 			{
 				if (!vars->player2.dead)
 				{
@@ -403,8 +406,8 @@ int	update(t_vars *vars)
 		if (vars->death2 == 0)
 			death_animation2(vars);
 		collect_fish(vars);
-		portal_open(vars);
 		winning(vars);
+		portal_open(vars);
 		vars->death_i++;
 		vars->death_j++;
 		vars->boost_i++;
@@ -450,13 +453,17 @@ void	check_arg(t_vars *vars, int	argc, char **argv)
 		exit (-1);
 	vars->map_buf = get_next_line(vars->map_fd);
 	if (!vars->map_buf)
-		exit_error(-1, vars);
+		exit ((free(vars->map_buf), 1));
 	vars->map_line = ft_split(vars->map_buf, '\n');
 	if (!vars->map_line)
 		exit ((free(vars->map_buf), 1));
 	vars->map_temp = ft_split(vars->map_buf, '\n');
-	if (!vars->map_line)
-		exit ((free(vars->map_buf), free(vars->map_line), 1));
+	if (!vars->map_temp)
+	{
+		vars->map_temp = NULL;
+		vars->map_line = NULL;
+		split_cleaner(vars);
+	}
 	map_error(vars);
 }
 
@@ -551,15 +558,45 @@ int	main(int argc, char **argv)
 	vars.c_count = 0;
 	vars.e_count = 0;
 	vars.p_count = 0;
-	vars.mv_count = 0;
 	check_arg(&vars, argc, argv);
+	vars.mv_count = 0;
 	vars.mouse_pressed = 0;
 	vars.goal = vars.c_left;
+	vars.mlx = NULL;
+	vars.win = NULL;
+	vars.key_state = NULL;
+	vars.map_pixel = NULL;
+	vars.img0 = NULL;
+	vars.img1 = NULL;
+	vars.imgp = NULL;
+	vars.imge = NULL;
+	vars.imge2 = NULL;
+	vars.imgc = NULL;
+	vars.player1.img_d = NULL;
+	vars.player1.img_g = NULL;
+	vars.player2.img_d = NULL;
+	vars.player2.img_g = NULL;
+	vars.player3.img_d = NULL;
+	vars.player3.img_g = NULL;
+	vars.player1.d1 = NULL;
+	vars.player1.d2 = NULL;
+	vars.player1.d3 = NULL;
+	vars.player1.d4 = NULL;
+	vars.player1.d5 = NULL;
+	vars.player1.d6 = NULL;
+	vars.player1.d7 = NULL;
+	vars.player2.d1 = NULL;
+	vars.player2.d2 = NULL;
+	vars.player2.d3 = NULL;
+	vars.player2.d4 = NULL;
+	vars.player2.d5 = NULL;
+	vars.player2.d6 = NULL;
+	vars.player2.d7 = NULL;
 	vars.mlx = mlx_init();
-	if (vars.mlx == NULL)
-		return (1);
+	if (!vars.mlx)
+		return (-1);
 	vars.win = mlx_new_window(vars.mlx, vars.map_width * 65, vars.map_height * 65, "so_long");
-	if (vars.mlx == NULL)
+	if (!vars.mlx)
 	{
 		free(vars.mlx);
 		return (1);
@@ -567,7 +604,7 @@ int	main(int argc, char **argv)
 	i = 0;
 	vars.key_state = malloc(sizeof(int) * 65365);
 	if (!vars.key_state)
-		return (0);
+		close_win(&vars);
 	vars.map_pixel = malloc(sizeof(int *) * 976);
 	while (i < 976)
 		vars.map_pixel[i++] = malloc(sizeof(int) * 1886);
@@ -576,90 +613,90 @@ int	main(int argc, char **argv)
 		vars.key_state[i++] = 0;
 	vars.img0 = mlx_xpm_file_to_image(vars.mlx, "xpm/Eau.xpm", &vars.img_width, &vars.img_height);
 	if (!vars.img0)
-		exit(1);
+		close_win(&vars);
 	vars.imgp = mlx_xpm_file_to_image(vars.mlx, "xpm/Spawn.xpm", &vars.img_width, &vars.img_height);
 	if (!vars.imgp)
-		exit(1);
+		close_win(&vars);
 	vars.img1 = mlx_xpm_file_to_image(vars.mlx, "xpm/Wall.xpm", &vars.img_width, &vars.img_height);
 	if (!vars.img1)
-		exit(1);
-	vars.imgc = mlx_xpm_file_to_image(vars.mlx, "xpm/Wall.xpm", &vars.img_width, &vars.img_height);
+		close_win(&vars);
+	vars.imgc = mlx_xpm_file_to_image(vars.mlx, "xpm/Collectible.xpm", &vars.img_width, &vars.img_height);
 	if (!vars.imgc)
-		exit(1);
+		close_win(&vars);
 	vars.imge = mlx_xpm_file_to_image(vars.mlx, "xpm/PortalClose.xpm", &vars.img_width, &vars.img_height);
 	if (!vars.imge)
-		exit(1);
+		close_win(&vars);
 	vars.imge2 = mlx_xpm_file_to_image(vars.mlx, "xpm/PortalOpen.xpm", &vars.img_width, &vars.img_height);
 	if (!vars.imge2)
-		exit(1);
+		close_win(&vars);
 	vars.player1.img_d = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1d.xpm", &vars.player1.x, &vars.player1.y);
 	if (!vars.player1.img_d)
-		exit (1);
+		close_win(&vars);
 	vars.player1.img_g = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1g.xpm", &vars.player1.x, &vars.player1.y);
 	if (!vars.player1.img_g)
-		exit (1);
+		close_win(&vars);
 	vars.player2.img_g = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2g.xpm", &vars.player2.x, &vars.player2.y);
 	if (!vars.player2.img_g)
-		exit (1);
+		close_win(&vars);
 	vars.player2.img_d = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2d.xpm", &vars.player2.x, &vars.player2.y);
 	if (!vars.player2.img_d)
-		exit (1);
+		close_win(&vars);
 	vars.player3.img_g = mlx_xpm_file_to_image(vars.mlx, "xpm/Shinigami2g.xpm", &vars.player3.x, &vars.player3.y);
 	if (!vars.player3.img_g)
-		exit (1);
+		close_win(&vars);
 	vars.player3.img_d = mlx_xpm_file_to_image(vars.mlx, "xpm/Shinigami2d.xpm", &vars.player3.x, &vars.player3.y);
 	if (!vars.player3.img_d)
-		exit (1);
+		close_win(&vars);
+	vars.player1.d1 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort1.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d1)
+		close_win(&vars);
+	vars.player1.d2 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort2.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d2)
+		close_win(&vars);
+	vars.player1.d3 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort3.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d3)
+		close_win(&vars);
+	vars.player1.d4 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort4.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d4)
+		close_win(&vars);
+	vars.player1.d5 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort5.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d5)
+		close_win(&vars);
+	vars.player1.d6 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort6.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d6)
+		close_win(&vars);
+	vars.player1.d7 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort7.xpm", &vars.player1.x, &vars.player1.y);
+	if (!vars.player1.d7)
+		close_win(&vars);
+	vars.player2.d1 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort1.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d1)
+		close_win(&vars);
+	vars.player2.d2 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort2.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d2)
+		close_win(&vars);
+	vars.player2.d3 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort3.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d3)
+		close_win(&vars);
+	vars.player2.d4 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort4.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d4)
+		close_win(&vars);
+	vars.player2.d5 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort5.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d5)
+		close_win(&vars);
+	vars.player2.d6 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort6.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d6)
+		close_win(&vars);
+	vars.player2.d7 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort7.xpm", &vars.player2.x, &vars.player2.y);
+	if (!vars.player2.d7)
+		close_win(&vars);
+	init_map(&vars);
+	init_zone(&vars);
 	vars.player1.x = vars.p_pos.y * 65;
 	vars.player1.y = vars.p_pos.x * 65;
 	vars.player2.x = vars.p_pos.y * 65;
 	vars.player2.y = vars.p_pos.x * 65;
 	vars.player3.x = vars.e_pos.y * 65;
 	vars.player3.y = vars.e_pos.x * 65;
-	vars.player1.d1 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort1.xpm", &vars.player1.x, &vars.player1.y);
-	if (!vars.player1.d1)
-		exit (1);
-	vars.player1.d2 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort2.xpm", &vars.player1.x, &vars.player1.y);
-	if (!vars.player1.d2)
-		exit (1);
-	vars.player1.d3 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort3.xpm", &vars.player1.x, &vars.player1.y);
-	if (!vars.player1.d3)
-		exit (1);
-	vars.player1.d4 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort4.xpm", &vars.player1.x, &vars.player1.y);
-	if (!vars.player1.d4)
-		exit (1);
-	vars.player1.d5 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort5.xpm", &vars.player1.x, &vars.player1.y);
-	if (!vars.player1.d5)
-		exit (1);
-	vars.player1.d6 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort6.xpm", &vars.player1.x, &vars.player1.y);
-	if (!vars.player1.d6)
-		exit (1);
-	vars.player1.d7 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson1mort7.xpm", &vars.player1.x, &vars.player1.y);
-	if (!vars.player1.d7)
-		exit (1);
-	vars.player2.d1 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort1.xpm", &vars.player2.x, &vars.player2.y);
-	if (!vars.player2.d1)
-		exit (1);
-	vars.player2.d2 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort2.xpm", &vars.player2.x, &vars.player2.y);
-	if (!vars.player2.d2)
-		exit (1);
-	vars.player2.d3 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort3.xpm", &vars.player2.x, &vars.player2.y);
-	if (!vars.player2.d3)
-		exit (1);
-	vars.player2.d4 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort4.xpm", &vars.player2.x, &vars.player2.y);
-	if (!vars.player2.d4)
-		exit (1);
-	vars.player2.d5 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort5.xpm", &vars.player2.x, &vars.player2.y);
-	if (!vars.player2.d5)
-		exit (1);
-	vars.player2.d6 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort6.xpm", &vars.player2.x, &vars.player2.y);
-	if (!vars.player2.d6)
-		exit (1);
-	vars.player2.d7 = mlx_xpm_file_to_image(vars.mlx, "xpm/Poisson2mort7.xpm", &vars.player2.x, &vars.player2.y);
-	if (!vars.player2.d7)
-		exit (1);
-	init_map(&vars);
-	init_zone(&vars);
 	vars.update_counter = 101;
 	mlx_hook(vars.win, 17, 0, close_win, &vars);
 	mlx_hook(vars.win, 2, 1L << 0, key_press, &vars);
