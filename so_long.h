@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/07/03 20:01:42 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/03 21:11:48 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,9 @@ int		mouse_move(int x, int y, t_vars *vars);
 int		key_press(int keycode, t_vars *vars);
 int		key_release(int keycode, t_vars *vars);
 void	press_button(t_vars *vars);
+void	press_arrow(t_vars *vars);
+void	player_death(t_vars *vars);
+void	win_condition(t_vars *vars);
+int		close_win(t_vars *vars);
 
 #endif
