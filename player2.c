@@ -19,15 +19,15 @@ void	press_up(t_vars *vars, t_player *p2)
 
 	x = p2->x;
 	y = p2->y;
-	if (vars->key_state[ARROW_UP] && vars->map_pixel[y - 1][x] != 1)
+	if (vars->key_state[UP] && vars->map_pixel[y - 1][x] != 1)
 	{
 		if (!p2->dead)
 		{
 			vars->mv_count += 1;
 			p2->y -= 1;
-			if (vars->key_state[ARROW_RIGHT])
+			if (vars->key_state[RIGHT])
 				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_d, x, y);
-			else if (vars->key_state[ARROW_LEFT])
+			else if (vars->key_state[LEFT])
 				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_g, x, y);
 			else
 				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_g, x, y);
@@ -42,15 +42,15 @@ void	press_down(t_vars *vars, t_player *p2)
 
 	x = p2->x;
 	y = p2->y;
-	if (vars->key_state[ARROW_DOWN] && vars->map_pixel[y + 1][x] != 1)
+	if (vars->key_state[DOWN] && vars->map_pixel[y + 1][x] != 1)
 	{
 		if (!p2->dead)
 		{
 			vars->mv_count += 1;
 			p2->y += 1;
-			if (vars->key_state[ARROW_RIGHT])
+			if (vars->key_state[RIGHT])
 				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_d, x, y);
-			else if (vars->key_state[ARROW_LEFT])
+			else if (vars->key_state[LEFT])
 				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_g, x, y);
 			else
 				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_g, x, y);
@@ -65,7 +65,7 @@ void	press_left_right(t_vars *vars, t_player *p2)
 
 	x = p2->x;
 	y = p2->y;
-	if (vars->key_state[ARROW_LEFT] && vars->map_pixel[y][x - 1] != 1)
+	if (vars->key_state[LEFT] && vars->map_pixel[y][x - 1] != 1)
 	{
 		if (!p2->dead)
 		{
@@ -74,7 +74,7 @@ void	press_left_right(t_vars *vars, t_player *p2)
 			mlx_put_image_to_window(vars->mlx, vars->win, p2->img_g, x, y);
 		}
 	}
-	if (vars->key_state[ARROW_RIGHT] && vars->map_pixel[y][x + 1] != 1)
+	if (vars->key_state[RIGHT] && vars->map_pixel[y][x + 1] != 1)
 	{
 		if (!p2->dead)
 		{

@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:26:07 by davli             #+#    #+#             */
-/*   Updated: 2024/07/04 17:32:02 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/04 18:29:32 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	init_map_player(t_vars *vars, t_player *p1, t_player *p2)
 	y2 = p2->y;
 	if (!vars->p1.dead)
 		mlx_put_image_to_window(vars->mlx, vars->win, p1->img_d, x1, y1);
-	if (vars->key_state[A] && !vars->p1.dead)
+	if (vars->key_state[A] && !vars->p1.dead && !vars->key_state[D])
 		mlx_put_image_to_window(vars->mlx, vars->win, p1->img_g, x1, y1);
 	if (!vars->p2.dead)
 		mlx_put_image_to_window(vars->mlx, vars->win, p2->img_d, x2, y2);
-	if (vars->key_state[ARROW_LEFT] && !vars->p2.dead)
+	if (vars->key_state[LEFT] && !vars->p2.dead && !vars->key_state[RIGHT])
 		mlx_put_image_to_window(vars->mlx, vars->win, p2->img_g, x2, y2);
 }
 

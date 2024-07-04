@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/07/04 17:28:18 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/04 18:30:05 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,15 @@
 # include "ft_printf/ft_printf.h"
 # include "libft/libft.h"
 
-# define LEFT 0
-# define RIGHT 0
 # define MAX_MAP 100
 # define W 119
 # define S 115
 # define A 97
 # define D 100
-# define ARROW_UP 65362
-# define ARROW_DOWN 65364
-# define ARROW_LEFT 65361
-# define ARROW_RIGHT 65363
+# define UP 65362
+# define DOWN 65364
+# define LEFT 65361
+# define RIGHT 65363
 # define I 105
 # define J 106
 # define K 107

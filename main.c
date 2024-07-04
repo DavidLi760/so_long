@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/07/04 17:34:08 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/04 18:04:01 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	mouse_press2(t_vars *vars, t_player *p3)
 int	update(t_vars *vars)
 {
 	vars->update_counter++;
-	if (vars->update_counter >= 100)
+	if (vars->update_counter >= 400)
 	{
 		press_button(vars);
 		press_arrow(vars);
