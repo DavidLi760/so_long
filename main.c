@@ -6,20 +6,20 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/07/03 21:08:14 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/04 15:44:13 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	spawn_boost(t_vars *vars)
+void	spawn_boost(t_vars *vars, int x, int y)
 {
 	vars->i--;
 	if (vars->boost_i >= 4242)
 	{
 		if (vars->boost_i == 4242)
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->imgp, vars->pos_y, vars->pos_x);
-		if (vars->p1.x == vars->pos_y && vars->p1.y == vars->pos_x)
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->imgp, y, x);
+		if (vars->p1.x == vars->y && vars->p1.y == vars->x)
 		{
 			if (!vars->p1.dead)
 			{
@@ -27,7 +27,7 @@ void	spawn_boost(t_vars *vars)
 				init_map(vars);
 			}
 		}
-		if (vars->p2.x == vars->pos_y && vars->p2.y == vars->pos_x)
+		if (vars->p2.x == vars->y && vars->p2.y == vars->x)
 		{
 			if (!vars->p2.dead)
 			{
@@ -100,6 +100,7 @@ int	update(t_vars *vars)
 		}
 		player_death(vars);
 		win_condition(vars);
+		spawn_boost(vars, vars->x, vars->y);
 		vars->death_i++;
 		vars->death_j++;
 		vars->boost_i++;
@@ -121,8 +122,8 @@ int	main(int argc, char **argv)
 	vars_declare7(&vars, &vars.img);
 	init_map(&vars);
 	init_zone(&vars);
-	vars.pos_x = vars.p_pos.x * 65;
-	vars.pos_y = vars.p_pos.y * 65;
+	vars.x = vars.p_pos.x * 65;
+	vars.y = vars.p_pos.y * 65;
 	mlx_hook(vars.win, 17, 0, close_win, &vars);
 	mlx_hook(vars.win, 2, 1L << 0, key_press, &vars);
 	mlx_hook(vars.win, 3, 1L << 1, key_release, &vars);

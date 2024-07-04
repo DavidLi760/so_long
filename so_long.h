@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/07/03 21:11:48 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/04 15:41:20 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ typedef struct s_vars
 	int			img;
 	int			img_width;
 	int			img_height;
-	int			pos_x;
-	int			pos_y;
+	int			x;
+	int			y;
 	int			*key_state;
 	int			update_counter;
 	int			mouse_pressed;
