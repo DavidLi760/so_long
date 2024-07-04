@@ -6,7 +6,7 @@
 /*   By: davli <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:52:20 by davli             #+#    #+#             */
-/*   Updated: 2024/06/25 16:39:24 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:58:23 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*readbuf(int fd, char *storage)
 	rid = 1;
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
-		return (ft_free(&storage));
+		return (NULL);
 	buffer[0] = '\0';
 	while (rid > 0)
 	{

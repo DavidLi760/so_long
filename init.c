@@ -6,55 +6,34 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:26:07 by davli             #+#    #+#             */
-/*   Updated: 2024/07/03 19:41:34 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:32:02 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	check_arg(t_vars *vars, int argc, char **argv)
+void	init_map_player(t_vars *vars, t_player *p1, t_player *p2)
 {
-	if (argc < 2 || argc > 2)
-		exit(-1);
-	vars->map_fd = open(argv[1], O_RDONLY);
-	if (vars->map_fd < 0)
-		exit (-1);
-	vars->map_buf = get_next_line(vars->map_fd);
-	if (!vars->map_buf)
-		exit ((free(vars->map_buf), 1));
-	vars->map_line = ft_split(vars->map_buf, '\n');
-	if (!vars->map_line)
-		exit ((free(vars->map_buf), 1));
-	vars->map_temp = ft_split(vars->map_buf, '\n');
-	if (!vars->map_temp)
-	{
-		vars->map_temp = NULL;
-		vars->map_line = NULL;
-		split_cleaner(vars);
-	}
-	map_error(vars);
+	int	x1;
+	int	y1;
+	int	x2;
+	int	y2;
+
+	x1 = p1->x;
+	y1 = p1->y;
+	x2 = p2->x;
+	y2 = p2->y;
+	if (!vars->p1.dead)
+		mlx_put_image_to_window(vars->mlx, vars->win, p1->img_d, x1, y1);
+	if (vars->key_state[A] && !vars->p1.dead)
+		mlx_put_image_to_window(vars->mlx, vars->win, p1->img_g, x1, y1);
+	if (!vars->p2.dead)
+		mlx_put_image_to_window(vars->mlx, vars->win, p2->img_d, x2, y2);
+	if (vars->key_state[ARROW_LEFT] && !vars->p2.dead)
+		mlx_put_image_to_window(vars->mlx, vars->win, p2->img_g, x2, y2);
 }
 
-void	init_map_util(t_vars *vars, int i, int j)
-{
-	int	i2;
-	int	j2;
-
-	i2 = i * 65;
-	j2 = j * 65;
-	if (vars->map_line[i][j] == '1')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img1, j2, i2);
-	if (vars->map_line[i][j] == '0')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, j2, i2);
-	if (vars->map_line[i][j] == 'C')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->imgc, j2, i2);
-	if (vars->map_line[i][j] == 'P')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->imgp, j2, i2);
-	if (vars->map_line[i][j] == 'E')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->imge, j2, i2);
-}
-
-void	init_map(t_vars *vars)
+void	init_map2(t_vars *vars)
 {
 	int	i;
 	int	j;
@@ -70,6 +49,34 @@ void	init_map(t_vars *vars)
 		}
 		i++;
 	}
+	init_map_player(vars, &vars->p1, &vars->p2);
+}
+
+void	init_map(t_vars *vars)
+{
+	int	i;
+	int	j;
+	int	x;
+	int	y;
+
+	x = vars->p3.x;
+	y = vars->p3.y;
+	i = 0;
+	while (vars->map_line[i])
+	{
+		j = 0;
+		while (vars->map_line[i][j])
+		{
+			init_map_util(vars, i, j);
+			j++;
+		}
+		i++;
+	}
+	init_map_player(vars, &vars->p1, &vars->p2);
+	if (vars->i <= -3)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->p3.img_d, x, y);
+	if (vars->i <= -3 && vars->p3.x > vars->mouse_x - 32 && vars->p3.x > 65)
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->p3.img_g, x, y);
 }
 
 void	forbidden_zone(t_vars *vars, int i, int j)

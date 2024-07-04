@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:09:06 by davli             #+#    #+#             */
-/*   Updated: 2024/07/04 15:41:20 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:28:18 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,5 +162,8 @@ void	press_arrow(t_vars *vars);
 void	player_death(t_vars *vars);
 void	win_condition(t_vars *vars);
 int		close_win(t_vars *vars);
+void	collect_fish2(t_vars *vars);
+void	init_map2(t_vars *vars);
+void	init_map_util(t_vars *vars, int i, int j);
 
 #endif

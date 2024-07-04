@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 20:45:00 by davli             #+#    #+#             */
-/*   Updated: 2024/07/03 20:56:09 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:31:28 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,15 @@ void	collect_fish(t_vars *vars)
 	{
 		vars->goal--;
 		vars->map_line[y1 / 65][x1 / 65] = '0';
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, x1, y1);
+		init_map2(vars);
 	}
 	if (vars->map_line[y2 / 65][x2 / 65] == 'C')
 	{
 		vars->goal--;
 		vars->map_line[y2 / 65][x2 / 65] = '0';
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, x2, y2);
+		init_map2(vars);
 	}
+	collect_fish2(vars);
 }
 
 void	counter(t_vars *vars)

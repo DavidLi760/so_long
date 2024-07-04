@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: davli <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 18:26:37 by davli             #+#    #+#             */
-/*   Updated: 2024/07/01 15:34:17 by davli            ###   ########.fr       */
+/*   Created: 2024/07/04 17:58:51 by davli             #+#    #+#             */
+/*   Updated: 2024/07/04 17:59:46 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@
 # include <limits.h>
 # include <ctype.h>
 
-# ifndef BUFFER_SIZE 
-#  define BUFFER_SIZE 42 
-# endif
+# define BUFFER_SIZE 42 
 
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);

@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/07/04 15:44:13 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:34:08 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	mouse_press1(t_vars *vars, t_player *p3)
 
 	x = p3->x;
 	y = p3->y;
+	init_map(vars);
 	if (p3->x > vars->mouse_x - 32 && p3->x > 65)
 	{
 		p3->x -= 1;
@@ -80,19 +81,19 @@ void	mouse_press2(t_vars *vars, t_player *p3)
 		else
 			mlx_put_image_to_window(vars->mlx, vars->win, p3->img_d, x, y);
 	}
-	vars->i = 3;
+	vars->i = 0;
 }
 
 int	update(t_vars *vars)
 {
 	vars->update_counter++;
-	if (vars->update_counter >= 400)
+	if (vars->update_counter >= 100)
 	{
 		press_button(vars);
 		press_arrow(vars);
 		if (vars->mouse_pressed == 1)
 		{
-			if (vars->i <= 0)
+			if (vars->i <= -3)
 			{
 				mouse_press1(vars, &vars->p3);
 				mouse_press2(vars, &vars->p3);
@@ -102,6 +103,7 @@ int	update(t_vars *vars)
 		win_condition(vars);
 		spawn_boost(vars, vars->x, vars->y);
 		vars->death_i++;
+		vars->i--;
 		vars->death_j++;
 		vars->boost_i++;
 		vars->update_counter = 0;
@@ -120,7 +122,7 @@ int	main(int argc, char **argv)
 	vars_declare5(&vars, &vars.img);
 	vars_declare6(&vars, &vars.img);
 	vars_declare7(&vars, &vars.img);
-	init_map(&vars);
+	init_map2(&vars);
 	init_zone(&vars);
 	vars.x = vars.p_pos.x * 65;
 	vars.y = vars.p_pos.y * 65;
