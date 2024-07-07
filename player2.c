@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 20:14:59 by davli             #+#    #+#             */
-/*   Updated: 2024/07/03 20:22:45 by davli            ###   ########.fr       */
+/*   Updated: 2024/07/07 15:18:47 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	press_up(t_vars *vars, t_player *p2)
 			else if (vars->key_state[LEFT])
 				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_g, x, y);
 			else
-				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_g, x, y);
+				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_d, x, y);
 		}
 	}
 }
@@ -53,7 +53,7 @@ void	press_down(t_vars *vars, t_player *p2)
 			else if (vars->key_state[LEFT])
 				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_g, x, y);
 			else
-				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_g, x, y);
+				mlx_put_image_to_window(vars->mlx, vars->win, p2->img_d, x, y);
 		}
 	}
 }
