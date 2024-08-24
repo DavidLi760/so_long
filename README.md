@@ -1,3 +1,5 @@
+![Mon so_long](image.png)
+
 So_long is one of the first graphical project at 42 School.
 
 I made a 3 player game for this project using the models of famous games like "Minecraft" and "Fish Eat Getting Big"
