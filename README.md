@@ -15,4 +15,4 @@ In my so_long the goal is to win by collecting all collectibles on the map witho
 But be careful the mouse fish can pass through walls contrary to players.
 
 Don't worry about the player playing the Ghost Fish camping. 
-I added a feature that will make you win if you hit 42000 movement count
+I added a feature that will make you win if you hit 42000 movement count. 😉
