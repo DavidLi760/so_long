@@ -6,7 +6,7 @@
 /*   By: davli <davli@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 16:08:40 by davli             #+#    #+#             */
-/*   Updated: 2024/07/04 18:04:01 by davli            ###   ########.fr       */
+/*   Updated: 2024/08/24 16:20:05 by davli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ int	update(t_vars *vars)
 		vars->death_j++;
 		vars->boost_i++;
 		vars->update_counter = 0;
+		if (vars->mv_count > 42000)
+			vars->goal = 0;
 	}
 	return (0);
 }
